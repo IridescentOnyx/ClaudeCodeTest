@@ -9,9 +9,9 @@ Follow these steps once to connect the app to Google Calendar.
 1. Go to your GitHub repo → **Settings** → **Pages** (left sidebar)
 2. Under "Branch", select **main** and folder **/ (root)**, then click **Save**
 3. Wait ~1 minute, then your site URL will appear:
-   `https://iridescenton.github.io/ClaudeCodeTest/`
+   `https://iridescentonyx.github.io/ClaudeCodeTest/`
 4. The scheduler lives at:
-   `https://iridescenton.github.io/ClaudeCodeTest/cleaning-scheduler/`
+   `https://iridescentonyx.github.io/ClaudeCodeTest/cleaning-scheduler/`
 
 ---
 
@@ -49,7 +49,7 @@ Follow these steps once to connect the app to Google Calendar.
 2. Application type: **Web application**
 3. Name: `Cleaning Scheduler`
 4. Under **Authorized JavaScript origins**, click **+ Add URI** and paste:
-   - `https://iridescenton.github.io` ← your GitHub Pages domain (no trailing slash, no path)
+   - `https://iridescentonyx.github.io` ← your GitHub Pages domain (no trailing slash, no path)
    - Also add `http://localhost:8000` if you want to test locally
 5. Click **Create**
 6. A dialog shows your **Client ID** — copy it (looks like `1234567890-abc.apps.googleusercontent.com`)
@@ -70,7 +70,7 @@ Follow these steps once to connect the app to Google Calendar.
 
 ## Step 7 — Open the App
 
-Visit `https://iridescenton.github.io/ClaudeCodeTest/cleaning-scheduler/` and click **Connect Google Calendar**.
+Visit `https://iridescentonyx.github.io/ClaudeCodeTest/cleaning-scheduler/` and click **Connect Google Calendar**.
 
 Sign in with the Google account whose calendar your mom uses for her schedule. Appointments created in the app will appear on her phone automatically via the Google Calendar app.
 
