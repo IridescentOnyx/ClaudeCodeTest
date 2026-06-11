@@ -496,6 +496,8 @@
   const WORK_END_HOUR   = 18;
   const SLOT_STEP_MINS  = 30;
   const LS_KEY          = 'cs_inquiries';
+  const WORKER_URL      = ''; // paste your Cloudflare Worker URL here after deployment
+  const WORKER_SECRET   = ''; // paste your chosen SECRET value here
 
   const SERVICE_DURATIONS = { standard: 2, deep: 4, moveout: 6 };
   const MONTH_NAMES = ['January','February','March','April','May','June',
@@ -506,7 +508,8 @@
   let calYear, calMonth;
   let calEvents   = [];
   let selectedDay = null;
-  let currentAvailability = null; // for the modal
+  let currentAvailability = null;
+  let pollTimer   = null;
 
   // ── DOM ──
   const authScreen     = document.getElementById('auth-screen');
@@ -643,6 +646,7 @@
   }
 
   function signOut() {
+    stopPolling();
     google.accounts.oauth2.revoke(accessToken, () => {
       accessToken = null;
       calYear = calMonth = undefined;
@@ -654,6 +658,7 @@
   // ── Views ──
   function showApp() {
     authScreen.hidden = true; appEl.hidden = false;
+    startPolling();
     showDashboard();
   }
 
@@ -741,10 +746,13 @@
     const yesSugg = inq.available === true  ? 'suggested' : '';
     const noSugg  = inq.available === false ? 'suggested' : '';
     const safeId  = escHtml(inq.id);
+    const smsBadge = inq.fromSms
+      ? '<span class="avail-badge" style="background:#e0f2fe;color:#0369a1;margin-left:0.4rem;">📱 via SMS</span>'
+      : '';
     return `
       <div class="inquiry-card">
         <div class="inquiry-header">
-          <span class="inq-name">${escHtml(inq.clientName)}</span>
+          <span class="inq-name">${escHtml(inq.clientName)}${smsBadge}</span>
           <span class="inq-meta">${reqLabel}</span>
         </div>
         <div class="inq-phone">📞 ${escHtml(inq.phone)}</div>
@@ -1177,6 +1185,76 @@
 
     showParseHint(results[0]);
     checkInquiryAvailability();
+  }
+
+  // ── SMS inbox polling ──
+  function startPolling() {
+    if (!WORKER_URL) return;
+    pollInbox();
+    pollTimer = setInterval(pollInbox, 30000);
+  }
+
+  function stopPolling() {
+    if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+  }
+
+  async function pollInbox() {
+    if (!WORKER_URL || !WORKER_SECRET) return;
+    try {
+      const resp = await fetch(`${WORKER_URL}?secret=${encodeURIComponent(WORKER_SECRET)}`);
+      if (!resp.ok) return;
+      const messages = await resp.json();
+      if (!messages.length) return;
+
+      const all = loadInquiries();
+      const existingIds = new Set(all.map(i => i.id));
+      let hasNew = false;
+
+      for (const msg of messages) {
+        if (existingIds.has(msg.id)) continue;
+
+        // Reuse client name if we've seen this number before
+        const prior = all.slice().reverse().find(i => i.phone === msg.phone);
+        const clientName = (prior && prior.clientName !== prior.phone)
+          ? prior.clientName
+          : 'New Client';
+
+        // Auto-parse date/time from message text
+        let requestedDate = '', requestedTime = '';
+        if (window.chrono) {
+          const results = chrono.parse(msg.message, new Date(), { forwardDate: true });
+          if (results.length) {
+            const parsed = results[0].start;
+            if (parsed.isCertain('day')) {
+              const y = parsed.get('year'), mo = parsed.get('month'), d = parsed.get('day');
+              requestedDate = `${y}-${pad(mo)}-${pad(d)}`;
+            }
+            if (parsed.isCertain('hour')) {
+              const { h, m } = snapToSlot(parsed.get('hour'), parsed.get('minute') || 0);
+              requestedTime = `${pad(h)}:${pad(m)}`;
+            }
+          }
+        }
+
+        all.push({
+          id: msg.id, clientName, phone: msg.phone, message: msg.message,
+          requestedDate, requestedTime, serviceType: 'standard',
+          available: null, status: 'pending', response: null,
+          createdAt: msg.receivedAt, respondedAt: null, fromSms: true,
+        });
+        hasNew = true;
+
+        // Remove from Worker KV now that we've pulled it into localStorage
+        fetch(`${WORKER_URL}?secret=${encodeURIComponent(WORKER_SECRET)}&id=${encodeURIComponent(msg.id)}`,
+          { method: 'DELETE' }).catch(() => {});
+      }
+
+      if (hasNew) {
+        saveInquiries(all);
+        renderInquiries();
+        renderRecents();
+      }
+    } catch { /* non-critical — will retry next interval */ }
   }
 
   // ── API wrapper ──
