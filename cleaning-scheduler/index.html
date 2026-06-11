@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cleaning Scheduler</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background: #1a1a2e;
+      font-family: 'Segoe UI', sans-serif;
+      color: #eee;
+    }
+
+    /* ── Auth Screen ── */
+    #auth-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      gap: 1.5rem;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    #auth-screen .logo {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    #auth-screen h1 {
+      font-size: 2rem;
+      color: #e94560;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    #auth-screen p {
+      color: #aaa;
+      max-width: 320px;
+      line-height: 1.5;
+    }
+
+    /* ── Header ── */
+    header {
+      background: #16213e;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #0f3460;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    header h1 {
+      font-size: 1.3rem;
+      color: #e94560;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    #user-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    #user-name {
+      font-size: 0.85rem;
+      color: #aaa;
+    }
+
+    /* ── Main Content ── */
+    main {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem;
+    }
+
+    /* ── Section Header ── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+    }
+
+    .section-header h2 {
+      font-size: 1.2rem;
+      color: #a8dadc;
+      letter-spacing: 1px;
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      padding: 0.55rem 1.25rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      letter-spacing: 0.5px;
+      font-family: inherit;
+    }
+
+    .btn:active { transform: scale(0.97); }
+
+    .btn-primary {
+      background: #e94560;
+      color: #fff;
+    }
+
+    .btn-primary:hover { background: #c73652; }
+    .btn-primary:disabled { background: #555; cursor: not-allowed; transform: none; }
+
+    .btn-secondary {
+      background: #0f3460;
+      color: #eee;
+    }
+
+    .btn-secondary:hover { background: #1a4a82; }
+
+    .btn-ghost {
+      background: transparent;
+      color: #a8dadc;
+      padding: 0.4rem 0.75rem;
+      font-size: 0.9rem;
+    }
+
+    .btn-ghost:hover { color: #fff; }
+
+    /* ── Job Cards ── */
+    #jobs-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .job-card {
+      background: #16213e;
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      border-left: 4px solid #a8dadc;
+    }
+
+    .job-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.4rem;
+    }
+
+    .job-name {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .job-date {
+      font-size: 0.85rem;
+      color: #a8dadc;
+      white-space: nowrap;
+      margin-left: 0.75rem;
+    }
+
+    .job-time {
+      font-size: 0.95rem;
+      color: #e94560;
+      margin-bottom: 0.5rem;
+    }
+
+    .job-detail {
+      font-size: 0.85rem;
+      color: #bbb;
+      margin-top: 0.25rem;
+    }
+
+    .state-msg {
+      text-align: center;
+      padding: 2.5rem 1rem;
+      color: #888;
+      font-size: 0.95rem;
+    }
+
+    /* ── Form ── */
+    #form-view {
+      padding-bottom: 2rem;
+    }
+
+    #form-view h2 {
+      font-size: 1.2rem;
+      color: #a8dadc;
+      letter-spacing: 1px;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.1rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      color: #aaa;
+      margin-bottom: 0.35rem;
+      letter-spacing: 0.5px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      background: #16213e;
+      border: 1px solid #0f3460;
+      border-radius: 8px;
+      padding: 0.65rem 0.85rem;
+      color: #eee;
+      font-size: 0.95rem;
+      font-family: inherit;
+      transition: border-color 0.15s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #a8dadc;
+    }
+
+    .form-group select option { background: #16213e; }
+
+    .form-group textarea { resize: vertical; min-height: 80px; }
+
+    /* ── Slot Chips ── */
+    #slots-section {
+      margin-bottom: 1.1rem;
+    }
+
+    #slots-section > p {
+      font-size: 0.85rem;
+      color: #aaa;
+      margin-bottom: 0.6rem;
+      letter-spacing: 0.5px;
+    }
+
+    #slots {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .slot-chip {
+      padding: 0.45rem 0.85rem;
+      border: 1.5px solid #0f3460;
+      border-radius: 20px;
+      background: #16213e;
+      color: #a8dadc;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: inherit;
+    }
+
+    .slot-chip:hover {
+      border-color: #a8dadc;
+      background: #0f3460;
+    }
+
+    .slot-chip.selected {
+      background: #a8dadc;
+      border-color: #a8dadc;
+      color: #1a1a2e;
+      font-weight: 600;
+    }
+
+    #slots-loading {
+      font-size: 0.9rem;
+      color: #888;
+      padding: 0.5rem 0;
+    }
+
+    #no-slots {
+      font-size: 0.9rem;
+      color: #e94560;
+      padding: 0.5rem 0;
+    }
+
+    /* ── Divider ── */
+    .back-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 480px) {
+      header h1 { font-size: 1.1rem; }
+      #user-name { display: none; }
+      .section-header h2 { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════ AUTH SCREEN ══════════════ -->
+<div id="auth-screen">
+  <div class="logo">🧹</div>
+  <h1>Cleaning Scheduler</h1>
+  <p>Connect your Google Calendar to manage your appointments and find open time slots.</p>
+  <button class="btn btn-primary" id="sign-in-btn">Connect Google Calendar</button>
+</div>
+
+<!-- ══════════════ APP ══════════════ -->
+<div id="app" hidden>
+  <header>
+    <h1>🧹 Scheduler</h1>
+    <div id="user-info">
+      <span id="user-name"></span>
+      <button class="btn btn-ghost" id="sign-out-btn">Sign Out</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Dashboard -->
+    <div id="dashboard-view">
+      <div class="section-header">
+        <h2>Upcoming Jobs</h2>
+        <button class="btn btn-primary" id="add-btn">+ New Appointment</button>
+      </div>
+      <div id="jobs-list">
+        <p class="state-msg">Loading...</p>
+      </div>
+    </div>
+
+    <!-- Add Appointment Form -->
+    <div id="form-view" hidden>
+      <div class="back-row">
+        <button class="btn btn-ghost" id="back-btn">← Back</button>
+        <h2>New Appointment</h2>
+      </div>
+
+      <form id="appointment-form" autocomplete="off">
+        <div class="form-group">
+          <label for="f-name">Client Name</label>
+          <input id="f-name" type="text" name="clientName" placeholder="Jane Smith" required>
+        </div>
+
+        <div class="form-group">
+          <label for="f-phone">Phone Number</label>
+          <input id="f-phone" type="tel" name="phone" placeholder="(555) 123-4567" required>
+        </div>
+
+        <div class="form-group">
+          <label for="f-address">Address</label>
+          <input id="f-address" type="text" name="address" placeholder="123 Main St, City, ST" required>
+        </div>
+
+        <div class="form-group">
+          <label for="f-service">Service Type</label>
+          <select id="f-service" name="serviceType">
+            <option value="standard">Standard Clean (2 hrs)</option>
+            <option value="deep">Deep Clean (4 hrs)</option>
+            <option value="moveout">Move-out Clean (6 hrs)</option>
+            <option value="custom">Custom Duration</option>
+          </select>
+        </div>
+
+        <div class="form-group" id="custom-duration-wrap" hidden>
+          <label for="f-duration">Duration (hours)</label>
+          <input id="f-duration" type="number" name="customDuration" min="1" max="12" step="0.5" placeholder="3">
+        </div>
+
+        <div class="form-group">
+          <label for="f-date">Date</label>
+          <input id="f-date" type="date" name="date" required>
+        </div>
+
+        <div id="slots-loading" hidden>Checking availability…</div>
+        <div id="no-slots" hidden>No available slots on this date. Try another day.</div>
+
+        <div id="slots-section" hidden>
+          <div class="form-group">
+            <p>Available Times</p>
+            <div id="slots"></div>
+          </div>
+        </div>
+
+        <input type="hidden" name="selectedSlot">
+
+        <div class="form-group">
+          <label for="f-notes">Notes / Special Instructions</label>
+          <textarea id="f-notes" name="notes" placeholder="Has a dog, key under mat, focus on kitchen…"></textarea>
+        </div>
+
+        <button class="btn btn-primary" type="submit" id="submit-btn" disabled style="width:100%;padding:0.75rem;">
+          Book Appointment
+        </button>
+      </form>
+    </div>
+  </main>
+</div>
+
+<!-- Google Identity Services -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script>
+  // ─────────────────────────────────────────
+  // CONFIGURATION — paste your Client ID here
+  // ─────────────────────────────────────────
+  const CLIENT_ID = 'YOUR_CLIENT_ID_HERE';
+
+  const SCOPES = 'https://www.googleapis.com/auth/calendar.events https://www.googleapis.com/auth/calendar.readonly';
+  const WORK_START_HOUR = 8;   // 8 AM
+  const WORK_END_HOUR   = 18;  // 6 PM
+  const SLOT_STEP_MINS  = 30;
+
+  const SERVICE_DURATIONS = { standard: 2, deep: 4, moveout: 6 };
+
+  // ── State ──
+  let tokenClient, accessToken;
+
+  // ── DOM ──
+  const authScreen       = document.getElementById('auth-screen');
+  const appEl            = document.getElementById('app');
+  const dashboardView    = document.getElementById('dashboard-view');
+  const formView         = document.getElementById('form-view');
+  const jobsList         = document.getElementById('jobs-list');
+  const slotsSection     = document.getElementById('slots-section');
+  const slotsDiv         = document.getElementById('slots');
+  const slotsLoading     = document.getElementById('slots-loading');
+  const noSlots          = document.getElementById('no-slots');
+  const submitBtn        = document.getElementById('submit-btn');
+  const form             = document.getElementById('appointment-form');
+  const customDurWrap    = document.getElementById('custom-duration-wrap');
+  const userNameEl       = document.getElementById('user-name');
+
+  // ── Boot ──
+  window.addEventListener('load', () => {
+    // GIS may not be loaded yet if CDN is slow; poll briefly
+    const tryInit = (attempts) => {
+      if (window.google?.accounts?.oauth2) {
+        initAuth();
+      } else if (attempts > 0) {
+        setTimeout(() => tryInit(attempts - 1), 300);
+      } else {
+        document.getElementById('sign-in-btn').textContent = 'Failed to load Google — refresh page';
+      }
+    };
+    tryInit(20);
+
+    document.getElementById('sign-in-btn').onclick  = () => tokenClient.requestAccessToken();
+    document.getElementById('sign-out-btn').onclick = signOut;
+    document.getElementById('add-btn').onclick      = showForm;
+    document.getElementById('back-btn').onclick     = showDashboard;
+
+    document.getElementById('f-service').addEventListener('change', onServiceChange);
+    document.getElementById('f-date').addEventListener('change', onDateChange);
+    form.addEventListener('submit', onSubmit);
+
+    // Min date = today
+    document.getElementById('f-date').min = todayStr();
+  });
+
+  function initAuth() {
+    tokenClient = google.accounts.oauth2.initTokenClient({
+      client_id: CLIENT_ID,
+      scope: SCOPES,
+      callback(resp) {
+        if (resp.error) { alert('Sign-in failed: ' + resp.error); return; }
+        accessToken = resp.access_token;
+        fetchUserInfo();
+        showApp();
+      }
+    });
+  }
+
+  async function fetchUserInfo() {
+    try {
+      const resp = await callApi('GET', 'https://www.googleapis.com/oauth2/v3/userinfo');
+      userNameEl.textContent = resp.name || resp.email || '';
+    } catch { /* non-critical */ }
+  }
+
+  function signOut() {
+    google.accounts.oauth2.revoke(accessToken, () => {
+      accessToken = null;
+      appEl.hidden = true;
+      authScreen.hidden = false;
+    });
+  }
+
+  // ── Views ──
+  function showApp() {
+    authScreen.hidden = true;
+    appEl.hidden = false;
+    showDashboard();
+  }
+
+  function showDashboard() {
+    formView.hidden = true;
+    dashboardView.hidden = false;
+    loadDashboard();
+  }
+
+  function showForm() {
+    dashboardView.hidden = true;
+    formView.hidden = false;
+    form.reset();
+    clearSlots();
+    submitBtn.disabled = true;
+    customDurWrap.hidden = true;
+    document.getElementById('f-date').min = todayStr();
+  }
+
+  // ── Dashboard ──
+  async function loadDashboard() {
+    jobsList.innerHTML = '<p class="state-msg">Loading upcoming jobs…</p>';
+
+    const now      = new Date();
+    const twoWeeks = new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000);
+
+    try {
+      const data = await callApi('GET',
+        'https://www.googleapis.com/calendar/v3/calendars/primary/events', {
+          timeMin:       now.toISOString(),
+          timeMax:       twoWeeks.toISOString(),
+          orderBy:       'startTime',
+          singleEvents:  'true',
+          maxResults:    '100'
+        });
+
+      const jobs = (data.items || []).filter(e =>
+        e.summary && e.summary.startsWith('Cleaning –')
+      );
+
+      if (jobs.length === 0) {
+        jobsList.innerHTML = '<p class="state-msg">No upcoming jobs. Tap "+ New Appointment" to add one.</p>';
+        return;
+      }
+
+      jobsList.innerHTML = jobs.map(renderJob).join('');
+    } catch (err) {
+      jobsList.innerHTML = `<p class="state-msg" style="color:#e94560;">Could not load calendar: ${escHtml(err.message)}</p>`;
+    }
+  }
+
+  function renderJob(ev) {
+    const start  = new Date(ev.start.dateTime || ev.start.date);
+    const end    = new Date(ev.end.dateTime   || ev.end.date);
+    const name   = ev.summary.replace('Cleaning – ', '');
+    const desc   = ev.description || '';
+    const phone   = (desc.match(/Phone: ([^\n]+)/)   || [])[1] || '';
+    const service = (desc.match(/Service: ([^\n]+)/) || [])[1] || '';
+    const dateStr = start.toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric' });
+
+    return `
+      <div class="job-card">
+        <div class="job-header">
+          <span class="job-name">${escHtml(name)}</span>
+          <span class="job-date">${dateStr}</span>
+        </div>
+        <div class="job-time">${fmtTime(start)} – ${fmtTime(end)}</div>
+        ${ev.location ? `<div class="job-detail">📍 ${escHtml(ev.location)}</div>` : ''}
+        ${service     ? `<div class="job-detail">🧹 ${escHtml(service)}</div>`      : ''}
+        ${phone       ? `<div class="job-detail">📞 ${escHtml(phone)}</div>`        : ''}
+      </div>`;
+  }
+
+  // ── Form helpers ──
+  function onServiceChange(e) {
+    customDurWrap.hidden = e.target.value !== 'custom';
+    const date = document.getElementById('f-date').value;
+    if (date) onDateChange({ target: document.getElementById('f-date') });
+  }
+
+  async function onDateChange(e) {
+    const dateVal = e.target.value;
+    if (!dateVal) return;
+
+    const dur = getDuration();
+    if (!dur) return;
+
+    clearSlots();
+    slotsLoading.hidden = false;
+
+    try {
+      const slots = await getAvailableSlots(dateVal, dur);
+      slotsLoading.hidden = true;
+
+      if (slots.length === 0) { noSlots.hidden = false; return; }
+
+      slotsDiv.innerHTML = slots.map(s =>
+        `<button type="button" class="slot-chip" data-iso="${s.toISOString()}">${fmtTime(s)}</button>`
+      ).join('');
+
+      slotsDiv.querySelectorAll('.slot-chip').forEach(chip => {
+        chip.onclick = () => selectSlot(chip);
+      });
+
+      slotsSection.hidden = false;
+    } catch (err) {
+      slotsLoading.hidden = true;
+      noSlots.textContent = 'Error checking availability: ' + err.message;
+      noSlots.hidden = false;
+    }
+  }
+
+  function selectSlot(chip) {
+    slotsDiv.querySelectorAll('.slot-chip').forEach(c => c.classList.remove('selected'));
+    chip.classList.add('selected');
+    form.querySelector('[name="selectedSlot"]').value = chip.dataset.iso;
+    submitBtn.disabled = false;
+  }
+
+  function clearSlots() {
+    slotsSection.hidden = true;
+    noSlots.hidden = true;
+    slotsLoading.hidden = true;
+    slotsDiv.innerHTML = '';
+    form.querySelector('[name="selectedSlot"]').value = '';
+    submitBtn.disabled = true;
+  }
+
+  function getDuration() {
+    const svc = document.getElementById('f-service').value;
+    if (svc === 'custom') {
+      const v = parseFloat(document.getElementById('f-duration').value);
+      return isNaN(v) ? null : v;
+    }
+    return SERVICE_DURATIONS[svc];
+  }
+
+  async function getAvailableSlots(dateStr, durationHrs) {
+    const dayStart = new Date(`${dateStr}T00:00:00`);
+    const dayEnd   = new Date(`${dateStr}T23:59:59`);
+
+    const data = await callApi('POST',
+      'https://www.googleapis.com/calendar/v3/freeBusy', {}, {
+        timeMin: dayStart.toISOString(),
+        timeMax: dayEnd.toISOString(),
+        items:   [{ id: 'primary' }]
+      });
+
+    const busy       = (data.calendars?.primary?.busy) || [];
+    const durationMs = durationHrs * 3600 * 1000;
+    const slots      = [];
+
+    let cursor  = new Date(`${dateStr}T${pad(WORK_START_HOUR)}:00:00`);
+    const limit = new Date(`${dateStr}T${pad(WORK_END_HOUR)}:00:00`);
+
+    while (cursor.getTime() + durationMs <= limit.getTime()) {
+      const slotEnd  = new Date(cursor.getTime() + durationMs);
+      const occupied = busy.some(b => {
+        const bs = new Date(b.start), be = new Date(b.end);
+        return cursor < be && slotEnd > bs;
+      });
+      if (!occupied) slots.push(new Date(cursor));
+      cursor = new Date(cursor.getTime() + SLOT_STEP_MINS * 60 * 1000);
+    }
+
+    return slots;
+  }
+
+  async function onSubmit(e) {
+    e.preventDefault();
+    const fd = new FormData(form);
+    const d  = Object.fromEntries(fd.entries());
+    if (!d.selectedSlot) return;
+
+    const dur = getDuration();
+    const serviceLabels = {
+      standard: 'Standard Clean (2 hrs)',
+      deep:     'Deep Clean (4 hrs)',
+      moveout:  'Move-out Clean (6 hrs)',
+      custom:   `Custom (${dur} hrs)`
+    };
+
+    const start = new Date(d.selectedSlot);
+    const end   = new Date(start.getTime() + dur * 3600 * 1000);
+
+    const descLines = [
+      `Phone: ${d.phone}`,
+      `Service: ${serviceLabels[d.serviceType]}`,
+    ];
+    if (d.notes.trim()) descLines.push(`Notes: ${d.notes.trim()}`);
+
+    const event = {
+      summary:     `Cleaning – ${d.clientName}`,
+      location:    d.address,
+      description: descLines.join('\n'),
+      start:       { dateTime: start.toISOString() },
+      end:         { dateTime: end.toISOString() }
+    };
+
+    submitBtn.disabled     = true;
+    submitBtn.textContent  = 'Booking…';
+
+    try {
+      await callApi('POST',
+        'https://www.googleapis.com/calendar/v3/calendars/primary/events', {}, event);
+      submitBtn.textContent = '✓ Booked!';
+      submitBtn.style.background = '#2a9d8f';
+      setTimeout(() => {
+        submitBtn.textContent  = 'Book Appointment';
+        submitBtn.style.background = '';
+        showDashboard();
+      }, 1400);
+    } catch (err) {
+      submitBtn.disabled    = false;
+      submitBtn.textContent = 'Book Appointment';
+      alert('Could not create event: ' + err.message);
+    }
+  }
+
+  // ── API wrapper ──
+  async function callApi(method, url, params = {}, body = null) {
+    const qs      = new URLSearchParams(params).toString();
+    const fullUrl = qs ? `${url}?${qs}` : url;
+
+    const opts = {
+      method,
+      headers: {
+        Authorization:  `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+      }
+    };
+    if (body) opts.body = JSON.stringify(body);
+
+    const res = await fetch(fullUrl, opts);
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error?.message || `HTTP ${res.status}`);
+    }
+    return res.status === 204 ? null : res.json();
+  }
+
+  // ── Utils ──
+  function fmtTime(d) {
+    return d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+  }
+
+  function escHtml(s) {
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function pad(n) { return String(n).padStart(2, '0'); }
+
+  function todayStr() {
+    const d = new Date();
+    return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+  }
+</script>
+</body>
+</html>
