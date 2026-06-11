@@ -191,7 +191,21 @@
       margin-bottom: 1rem; gap: 0.75rem; flex-wrap: wrap;
     }
     .cal-nav { display: flex; align-items: center; gap: 0.5rem; }
-    #cal-title { font-size: 1rem; font-weight: 600; min-width: 148px; text-align: center; }
+    .cal-nav-select {
+      background: #fff; border: 1px solid #e2e4e8; border-radius: 8px;
+      padding: 0.4rem 0.65rem; font-size: 0.9rem; font-weight: 500;
+      font-family: inherit; color: #1c1c1c; cursor: pointer;
+      transition: border-color 0.15s;
+    }
+    .cal-nav-select:focus { outline: none; border-color: #3d7a5e; }
+
+    /* ── Parse hint ── */
+    #parse-hint {
+      font-size: 0.78rem; color: #065f46; background: #d1fae5;
+      border-radius: 6px; padding: 0.3rem 0.65rem; margin-top: 0.35rem;
+      display: none;
+    }
+    #parse-hint.visible { display: block; }
 
     /* ── Calendar Grid ── */
     #cal-grid {
@@ -274,7 +288,6 @@
       .cal-day { min-height: 52px; padding: 0.3rem 0.25rem; }
       .cal-day-header { font-size: 0.65rem; }
       .cal-toolbar { flex-direction: column; align-items: flex-start; }
-      #cal-title { min-width: 120px; }
       #user-name { display: none; }
       .auth-card { padding: 2rem 1.25rem; }
       .form-row { grid-template-columns: 1fr; }
@@ -325,9 +338,8 @@
     <div id="dashboard-view">
       <div class="cal-toolbar">
         <div class="cal-nav">
-          <button class="btn-icon" id="prev-month">&#8592;</button>
-          <span id="cal-title">June 2026</span>
-          <button class="btn-icon" id="next-month">&#8594;</button>
+          <select id="cal-month-sel" class="cal-nav-select"></select>
+          <select id="cal-year-sel"  class="cal-nav-select"></select>
           <button class="btn btn-ghost" id="today-btn" hidden style="padding:0.35rem 0.75rem;font-size:0.82rem;">Today</button>
         </div>
         <button class="btn btn-primary" id="add-btn">+ New Appointment</button>
@@ -438,6 +450,7 @@
         <div class="form-group">
           <label for="inq-message">Their Message (paste from SMS)</label>
           <textarea id="inq-message" name="inqMessage" placeholder="e.g. Hi! Are you available next Tuesday at 10am for a standard cleaning?"></textarea>
+          <div id="parse-hint"></div>
         </div>
         <div class="form-row">
           <div class="form-group">
@@ -470,6 +483,7 @@
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chrono-node@2.7.0/dist/chrono.min.js"></script>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script>
   // ─────────────────────────────────────────
@@ -519,6 +533,7 @@
   // ── Boot ──
   window.addEventListener('load', () => {
     buildTimeOptions();
+    buildCalNavOptions();
 
     const tryInit = (n) => {
       if (window.google?.accounts?.oauth2) initAuth();
@@ -532,8 +547,8 @@
     document.getElementById('sign-out-btn').onclick = signOut;
 
     // Calendar nav
-    document.getElementById('prev-month').onclick       = () => navigateMonth(-1);
-    document.getElementById('next-month').onclick       = () => navigateMonth(1);
+    document.getElementById('cal-month-sel').addEventListener('change', onCalNavChange);
+    document.getElementById('cal-year-sel').addEventListener('change', onCalNavChange);
     document.getElementById('today-btn').onclick        = jumpToToday;
     document.getElementById('add-btn').onclick          = () => showForm();
     document.getElementById('back-btn').onclick         = showDashboard;
@@ -554,6 +569,9 @@
     ['inq-date','inq-time','inq-service'].forEach(id => {
       document.getElementById(id).addEventListener('change', checkInquiryAvailability);
     });
+
+    // Message parsing
+    document.getElementById('inq-message').addEventListener('input', parseMessageDates);
 
     // Booking form
     document.getElementById('f-service').addEventListener('change', onServiceChange);
@@ -579,6 +597,29 @@
       sel.appendChild(opt);
       cursor += SLOT_STEP_MINS;
     }
+  }
+
+  function buildCalNavOptions() {
+    const monthSel = document.getElementById('cal-month-sel');
+    MONTH_NAMES.forEach((name, i) => {
+      const opt = document.createElement('option');
+      opt.value = i; opt.textContent = name;
+      monthSel.appendChild(opt);
+    });
+    const yearSel  = document.getElementById('cal-year-sel');
+    const baseYear = new Date().getFullYear();
+    for (let y = baseYear - 2; y <= baseYear + 5; y++) {
+      const opt = document.createElement('option');
+      opt.value = y; opt.textContent = y;
+      yearSel.appendChild(opt);
+    }
+  }
+
+  function onCalNavChange() {
+    calMonth = +document.getElementById('cal-month-sel').value;
+    calYear  = +document.getElementById('cal-year-sel').value;
+    selectedDay = null; dayDetail.hidden = true;
+    loadCalendar();
   }
 
   // ── Auth ──
@@ -754,6 +795,7 @@
     currentAvailability = null;
     inquiryForm.reset();
     availResult.innerHTML = '';
+    clearParseHint();
     sendYesBtn.disabled = true; sendNoBtn.disabled = true;
     sendYesBtn.classList.remove('suggested'); sendNoBtn.classList.remove('suggested');
     inquiryModal.hidden = false;
@@ -897,7 +939,8 @@
     const todayDs = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`;
     const isCur   = calYear === now.getFullYear() && calMonth === now.getMonth();
 
-    document.getElementById('cal-title').textContent = `${MONTH_NAMES[calMonth]} ${calYear}`;
+    document.getElementById('cal-month-sel').value = calMonth;
+    document.getElementById('cal-year-sel').value  = calYear;
     document.getElementById('today-btn').hidden = isCur;
 
     const evMap = {};
@@ -1076,6 +1119,64 @@
       submitBtn.disabled = false; submitBtn.textContent = 'Book Appointment';
       alert('Could not create event: ' + err.message);
     }
+  }
+
+  // ── Message parsing ──
+  function snapToSlot(h, m) {
+    const total = Math.round((h * 60 + m) / 30) * 30;
+    return { h: Math.floor(total / 60) % 24, m: total % 60 };
+  }
+
+  function showParseHint(result) {
+    const hint = document.getElementById('parse-hint');
+    const start = result.start;
+    const parts = [];
+    if (start.isCertain('day')) {
+      const d = new Date(start.get('year'), start.get('month') - 1, start.get('day'));
+      parts.push(d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }));
+    }
+    if (start.isCertain('hour')) {
+      const { h, m } = snapToSlot(start.get('hour'), start.get('minute') || 0);
+      parts.push(fmtTime12(`${pad(h)}:${pad(m)}`));
+    }
+    if (parts.length) {
+      hint.textContent = `Detected: ${parts.join(' at ')} — auto-filled below`;
+      hint.classList.add('visible');
+    } else {
+      clearParseHint();
+    }
+  }
+
+  function clearParseHint() {
+    const hint = document.getElementById('parse-hint');
+    hint.textContent = '';
+    hint.classList.remove('visible');
+  }
+
+  function parseMessageDates() {
+    const text = document.getElementById('inq-message').value;
+    if (!text.trim()) { clearParseHint(); return; }
+    if (!window.chrono) return;
+
+    const results = chrono.parse(text, new Date(), { forwardDate: true });
+    if (!results.length) { clearParseHint(); return; }
+
+    const parsed = results[0].start;
+
+    if (parsed.isCertain('day')) {
+      const y = parsed.get('year'), mo = parsed.get('month'), d = parsed.get('day');
+      document.getElementById('inq-date').value = `${y}-${pad(mo)}-${pad(d)}`;
+    }
+
+    if (parsed.isCertain('hour')) {
+      const { h, m } = snapToSlot(parsed.get('hour'), parsed.get('minute') || 0);
+      const val = `${pad(h)}:${pad(m)}`;
+      const sel = document.getElementById('inq-time');
+      if ([...sel.options].some(o => o.value === val)) sel.value = val;
+    }
+
+    showParseHint(results[0]);
+    checkInquiryAvailability();
   }
 
   // ── API wrapper ──
