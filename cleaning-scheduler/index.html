@@ -18,386 +18,255 @@
 
     /* ── Auth Screen ── */
     #auth-screen {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 2rem;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      min-height: 100vh; padding: 2rem;
     }
-
     .auth-card {
-      background: #fff;
-      border-radius: 14px;
+      background: #fff; border-radius: 14px;
       box-shadow: 0 2px 16px rgba(0,0,0,0.09);
-      padding: 2.5rem 2rem;
-      max-width: 360px;
-      width: 100%;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
+      padding: 2.5rem 2rem; max-width: 360px; width: 100%;
+      text-align: center; display: flex; flex-direction: column; gap: 1rem;
     }
-
     #auth-screen .logo { font-size: 2.5rem; }
-
-    #auth-screen h1 {
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: #1c1c1c;
-    }
-
-    #auth-screen p {
-      color: #6b7280;
-      font-size: 0.9rem;
-      line-height: 1.6;
-    }
+    #auth-screen h1 { font-size: 1.5rem; font-weight: 600; }
+    #auth-screen p { color: #6b7280; font-size: 0.9rem; line-height: 1.6; }
 
     /* ── Header ── */
     header {
-      background: #fff;
-      padding: 0.9rem 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid #e2e4e8;
-      position: sticky;
-      top: 0;
-      z-index: 10;
+      background: #fff; padding: 0.9rem 1.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid #e2e4e8; position: sticky; top: 0; z-index: 10;
     }
+    header h1 { font-size: 1.1rem; font-weight: 600; display: flex; align-items: center; gap: 0.5rem; }
+    #user-info { display: flex; align-items: center; gap: 1rem; }
+    #user-name { font-size: 0.85rem; color: #6b7280; }
 
-    header h1 {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: #1c1c1c;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    #user-info {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    #user-name {
-      font-size: 0.85rem;
-      color: #6b7280;
-    }
-
-    /* ── Main Content ── */
-    main {
-      max-width: 780px;
-      margin: 0 auto;
-      padding: 1.5rem 1rem 2rem;
-    }
+    /* ── Main ── */
+    main { max-width: 780px; margin: 0 auto; padding: 1.5rem 1rem 2rem; }
 
     /* ── Buttons ── */
     .btn {
-      padding: 0.55rem 1.25rem;
-      border: none;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background 0.15s;
-      font-family: inherit;
+      padding: 0.55rem 1.25rem; border: none; border-radius: 8px;
+      font-size: 0.9rem; font-weight: 500; cursor: pointer;
+      transition: background 0.15s, opacity 0.15s; font-family: inherit;
     }
-
     .btn-primary { background: #3d7a5e; color: #fff; }
     .btn-primary:hover { background: #2f6249; }
     .btn-primary:disabled { background: #c4c4c4; cursor: not-allowed; }
-
     .btn-sm { padding: 0.35rem 0.85rem; font-size: 0.82rem; }
-
     .btn-ghost {
-      background: transparent;
-      color: #3d7a5e;
-      padding: 0.4rem 0;
-      font-size: 0.9rem;
-      font-weight: 500;
-      border: none;
-      cursor: pointer;
-      font-family: inherit;
+      background: transparent; color: #3d7a5e;
+      padding: 0.4rem 0; font-size: 0.9rem; font-weight: 500;
+      border: none; cursor: pointer; font-family: inherit;
     }
-
     .btn-ghost:hover { color: #2f6249; }
-
     .btn-icon {
-      background: none;
-      border: 1px solid #e2e4e8;
-      border-radius: 6px;
-      width: 32px;
-      height: 32px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      color: #3d7a5e;
-      font-size: 1rem;
-      transition: background 0.15s, border-color 0.15s;
-      font-family: inherit;
+      background: none; border: 1px solid #e2e4e8; border-radius: 6px;
+      width: 32px; height: 32px; display: inline-flex; align-items: center;
+      justify-content: center; cursor: pointer; color: #3d7a5e; font-size: 1rem;
+      transition: background 0.15s, border-color 0.15s; font-family: inherit;
     }
-
     .btn-icon:hover { background: #edf7f2; border-color: #3d7a5e; }
-
-    /* ── Calendar Toolbar ── */
-    .cal-toolbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1rem;
-      gap: 0.75rem;
-      flex-wrap: wrap;
+    .btn-yes { background: #3d7a5e; color: #fff; }
+    .btn-yes:hover { background: #2f6249; }
+    .btn-no  { background: #c0392b; color: #fff; }
+    .btn-no:hover  { background: #a93226; }
+    .btn-yes.suggested { box-shadow: 0 0 0 3px rgba(61,122,94,0.35); font-weight: 600; }
+    .btn-no.suggested  { box-shadow: 0 0 0 3px rgba(192,57,43,0.35);  font-weight: 600; }
+    .btn-close {
+      background: none; border: none; cursor: pointer; font-size: 1.1rem;
+      color: #6b7280; padding: 0.25rem; line-height: 1; font-family: inherit;
     }
+    .btn-close:hover { color: #1c1c1c; }
 
-    .cal-nav {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+    /* ── Collapsible Panels ── */
+    .collapsible-panel {
+      background: #fff; border-radius: 10px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07); margin-bottom: 1rem; overflow: hidden;
     }
-
-    #cal-title {
-      font-size: 1rem;
-      font-weight: 600;
-      color: #1c1c1c;
-      min-width: 148px;
-      text-align: center;
+    .panel-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.85rem 1.25rem; cursor: pointer; user-select: none;
+      border-bottom: 1px solid transparent; transition: border-color 0.15s;
     }
+    .panel-header:hover { background: #fafafa; }
+    .collapsible-panel:not(.collapsed) .panel-header { border-bottom-color: #e2e4e8; }
+    .panel-header-left { display: flex; align-items: center; gap: 0.6rem; }
+    .panel-title { font-size: 0.95rem; font-weight: 600; color: #1c1c1c; }
+    .panel-header-right { display: flex; align-items: center; gap: 0.75rem; }
+    .chevron { font-size: 0.75rem; color: #9ca3af; transition: transform 0.2s; display: inline-block; }
+    .collapsible-panel.collapsed .chevron { transform: rotate(-90deg); }
+    .panel-body { padding: 1rem 1.25rem; }
+    .collapsible-panel.collapsed .panel-body { display: none; }
 
-    /* ── Calendar Grid ── */
-    #cal-grid {
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      border: 1px solid #e2e4e8;
-      overflow: hidden;
+    /* ── Inquiry Cards ── */
+    .inquiry-card {
+      background: #f9fafb; border-radius: 8px; padding: 0.85rem 1rem;
+      border-left: 3px solid #3d7a5e; margin-bottom: 0.65rem;
     }
-
-    .cal-day-header {
-      padding: 0.5rem 0;
-      text-align: center;
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: #9ca3af;
-      border-bottom: 1px solid #e2e4e8;
-      background: #f9fafb;
+    .inquiry-card:last-child { margin-bottom: 0; }
+    .inquiry-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.2rem; }
+    .inq-name { font-size: 0.95rem; font-weight: 600; }
+    .inq-meta { font-size: 0.8rem; color: #6b7280; white-space: nowrap; margin-left: 0.5rem; }
+    .inq-phone { font-size: 0.82rem; color: #6b7280; margin-bottom: 0.35rem; }
+    .inq-message {
+      font-size: 0.82rem; color: #6b7280; font-style: italic;
+      background: #fff; border-radius: 6px; padding: 0.4rem 0.6rem;
+      border: 1px solid #e2e4e8; margin-bottom: 0.5rem;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     }
+    .inq-avail-row { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap; }
+    .inq-actions { display: flex; gap: 0.5rem; }
 
-    .cal-day {
-      padding: 0.4rem 0.45rem;
-      min-height: 72px;
-      border-right: 1px solid #e2e4e8;
-      border-bottom: 1px solid #e2e4e8;
-      cursor: pointer;
-      transition: background 0.1s;
+    /* ── Recent Cards ── */
+    .recent-card {
+      background: #f9fafb; border-radius: 8px; padding: 0.75rem 1rem;
+      border-left: 3px solid #e2e4e8; margin-bottom: 0.5rem;
     }
+    .recent-card:last-child { margin-bottom: 0; }
 
-    .cal-day:nth-child(7n) { border-right: none; }
-
-    .cal-day:not(.other-month):hover { background: #f4f5f7; }
-
-    .cal-day.other-month {
-      cursor: default;
-      background: #fafafa;
+    /* ── Availability Badges ── */
+    .avail-badge {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      font-size: 0.8rem; font-weight: 500; padding: 0.25rem 0.6rem;
+      border-radius: 20px; white-space: nowrap;
     }
+    .avail-badge.yes     { background: #d1fae5; color: #065f46; }
+    .avail-badge.no      { background: #fee2e2; color: #991b1b; }
+    .avail-badge.unknown { background: #f3f4f6; color: #6b7280; }
 
-    .cal-day.selected { background: #edf7f2 !important; }
-
-    .cal-day.today .day-num {
-      background: #3d7a5e;
-      color: #fff;
-      border-radius: 50%;
+    /* ── Modal ── */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.45);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 100; padding: 1rem;
     }
-
-    .day-num {
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: #1c1c1c;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 22px;
-      height: 22px;
+    .modal-card {
+      background: #fff; border-radius: 14px; width: 100%; max-width: 440px;
+      max-height: 90vh; overflow-y: auto;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
     }
-
-    .cal-day.other-month .day-num { color: #d1d5db; }
-
-    .day-dots {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 3px;
-      margin-top: 5px;
+    .modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.1rem 1.25rem 0.85rem; border-bottom: 1px solid #e2e4e8;
+      position: sticky; top: 0; background: #fff; z-index: 1;
     }
-
-    .day-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #3d7a5e;
-      display: inline-block;
-      flex-shrink: 0;
+    .modal-header h3 { font-size: 1rem; font-weight: 600; }
+    .modal-body { padding: 1.1rem 1.25rem; }
+    .modal-actions {
+      display: flex; gap: 0.65rem; padding: 0.85rem 1.25rem 1.1rem;
+      border-top: 1px solid #e2e4e8; flex-wrap: wrap;
     }
+    .modal-actions .btn { flex: 1; min-width: 100px; }
+    #availability-result { margin: 0.5rem 0 0.25rem; min-height: 1.5rem; }
 
-    .day-more {
-      font-size: 0.62rem;
-      color: #6b7280;
-      line-height: 1;
-    }
-
-    /* ── Day Detail Panel ── */
-    #day-detail {
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
-      padding: 1rem 1.25rem;
-      margin-top: 1rem;
-      border-top: 3px solid #3d7a5e;
-    }
-
-    .day-detail-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 0.85rem;
-      gap: 0.75rem;
-    }
-
-    #day-detail-title {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: #1c1c1c;
-    }
-
-    /* ── Job Cards ── */
-    .job-card {
-      background: #f9fafb;
-      border-radius: 8px;
-      padding: 0.75rem 1rem;
-      border-left: 3px solid #3d7a5e;
-      margin-bottom: 0.5rem;
-    }
-
-    .job-card:last-child { margin-bottom: 0; }
-
-    .job-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 0.25rem;
-    }
-
-    .job-name {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: #1c1c1c;
-    }
-
-    .job-time {
-      font-size: 0.82rem;
-      font-weight: 500;
-      color: #3d7a5e;
-      white-space: nowrap;
-      margin-left: 0.5rem;
-    }
-
-    .job-detail {
-      font-size: 0.8rem;
-      color: #6b7280;
-      margin-top: 0.2rem;
-    }
-
-    .state-msg {
-      text-align: center;
-      padding: 2.5rem 1rem;
-      color: #9ca3af;
-      font-size: 0.92rem;
-    }
-
-    /* ── Form ── */
-    #form-view { padding-bottom: 2rem; }
-
-    .back-row {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 1.25rem;
-    }
-
-    .back-row h2 {
-      font-size: 1.05rem;
-      font-weight: 600;
-      color: #1c1c1c;
-    }
-
-    .form-group { margin-bottom: 1.1rem; }
-
+    /* ── Form groups (shared by booking form + modal) ── */
+    .form-group { margin-bottom: 1rem; }
     .form-group label {
-      display: block;
-      font-size: 0.82rem;
-      font-weight: 500;
-      color: #6b7280;
-      margin-bottom: 0.35rem;
+      display: block; font-size: 0.82rem; font-weight: 500;
+      color: #6b7280; margin-bottom: 0.35rem;
     }
-
     .form-group input,
     .form-group select,
     .form-group textarea {
-      width: 100%;
-      background: #fff;
-      border: 1px solid #e2e4e8;
-      border-radius: 8px;
-      padding: 0.65rem 0.85rem;
-      color: #1c1c1c;
-      font-size: 0.95rem;
-      font-family: inherit;
+      width: 100%; background: #fff; border: 1px solid #e2e4e8;
+      border-radius: 8px; padding: 0.65rem 0.85rem; color: #1c1c1c;
+      font-size: 0.95rem; font-family: inherit;
       transition: border-color 0.15s, box-shadow 0.15s;
     }
-
     .form-group input:focus,
     .form-group select:focus,
     .form-group textarea:focus {
-      outline: none;
-      border-color: #3d7a5e;
+      outline: none; border-color: #3d7a5e;
       box-shadow: 0 0 0 3px rgba(61,122,94,0.12);
     }
+    .form-group textarea { resize: vertical; min-height: 70px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
 
-    .form-group textarea { resize: vertical; min-height: 80px; }
+    /* ── Calendar Toolbar ── */
+    .cal-toolbar {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1rem; gap: 0.75rem; flex-wrap: wrap;
+    }
+    .cal-nav { display: flex; align-items: center; gap: 0.5rem; }
+    #cal-title { font-size: 1rem; font-weight: 600; min-width: 148px; text-align: center; }
+
+    /* ── Calendar Grid ── */
+    #cal-grid {
+      background: #fff; border-radius: 10px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+      display: grid; grid-template-columns: repeat(7, 1fr);
+      border: 1px solid #e2e4e8; overflow: hidden;
+    }
+    .cal-day-header {
+      padding: 0.5rem 0; text-align: center; font-size: 0.72rem;
+      font-weight: 600; color: #9ca3af;
+      border-bottom: 1px solid #e2e4e8; background: #f9fafb;
+    }
+    .cal-day {
+      padding: 0.4rem 0.45rem; min-height: 72px;
+      border-right: 1px solid #e2e4e8; border-bottom: 1px solid #e2e4e8;
+      cursor: pointer; transition: background 0.1s;
+    }
+    .cal-day:nth-child(7n) { border-right: none; }
+    .cal-day:not(.other-month):hover { background: #f4f5f7; }
+    .cal-day.other-month { cursor: default; background: #fafafa; }
+    .cal-day.selected { background: #edf7f2 !important; }
+    .cal-day.today .day-num { background: #3d7a5e; color: #fff; border-radius: 50%; }
+    .day-num {
+      font-size: 0.8rem; font-weight: 500; color: #1c1c1c;
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 22px; height: 22px;
+    }
+    .cal-day.other-month .day-num { color: #d1d5db; }
+    .day-dots { display: flex; flex-wrap: wrap; align-items: center; gap: 3px; margin-top: 5px; }
+    .day-dot { width: 6px; height: 6px; border-radius: 50%; background: #3d7a5e; display: inline-block; flex-shrink: 0; }
+    .day-more { font-size: 0.62rem; color: #6b7280; line-height: 1; }
+
+    /* ── Day Detail Panel ── */
+    #day-detail {
+      background: #fff; border-radius: 10px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+      padding: 1rem 1.25rem; margin-top: 1rem; border-top: 3px solid #3d7a5e;
+    }
+    .day-detail-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 0.85rem; gap: 0.75rem;
+    }
+    #day-detail-title { font-size: 0.95rem; font-weight: 600; }
+
+    /* ── Job Cards ── */
+    .job-card {
+      background: #f9fafb; border-radius: 8px; padding: 0.75rem 1rem;
+      border-left: 3px solid #3d7a5e; margin-bottom: 0.5rem;
+    }
+    .job-card:last-child { margin-bottom: 0; }
+    .job-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.25rem; }
+    .job-name { font-size: 0.95rem; font-weight: 600; }
+    .job-time { font-size: 0.82rem; font-weight: 500; color: #3d7a5e; white-space: nowrap; margin-left: 0.5rem; }
+    .job-detail { font-size: 0.8rem; color: #6b7280; margin-top: 0.2rem; }
 
     /* ── Slot Chips ── */
     #slots-section { margin-bottom: 1.1rem; }
-
-    #slots-section > p {
-      font-size: 0.82rem;
-      font-weight: 500;
-      color: #6b7280;
-      margin-bottom: 0.6rem;
-    }
-
+    #slots-section > p { font-size: 0.82rem; font-weight: 500; color: #6b7280; margin-bottom: 0.6rem; }
     #slots { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-
     .slot-chip {
-      padding: 0.4rem 0.9rem;
-      border: 1.5px solid #e2e4e8;
-      border-radius: 20px;
-      background: #fff;
-      color: #1c1c1c;
-      font-size: 0.88rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.15s;
-      font-family: inherit;
+      padding: 0.4rem 0.9rem; border: 1.5px solid #e2e4e8; border-radius: 20px;
+      background: #fff; color: #1c1c1c; font-size: 0.88rem; font-weight: 500;
+      cursor: pointer; transition: all 0.15s; font-family: inherit;
     }
-
     .slot-chip:hover { border-color: #3d7a5e; color: #3d7a5e; }
     .slot-chip.selected { background: #3d7a5e; border-color: #3d7a5e; color: #fff; }
 
     #slots-loading { font-size: 0.88rem; color: #9ca3af; padding: 0.4rem 0; }
     #no-slots { font-size: 0.88rem; color: #b45309; padding: 0.4rem 0; }
+
+    /* ── Back row ── */
+    .back-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem; }
+    .back-row h2 { font-size: 1.05rem; font-weight: 600; }
+
+    .state-msg { text-align: center; padding: 2rem 1rem; color: #9ca3af; font-size: 0.88rem; }
 
     /* ── Responsive ── */
     @media (max-width: 520px) {
@@ -407,6 +276,8 @@
       #cal-title { min-width: 120px; }
       #user-name { display: none; }
       .auth-card { padding: 2rem 1.25rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .inq-avail-row { flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
@@ -433,7 +304,23 @@
   </header>
 
   <main>
-    <!-- Calendar Dashboard -->
+    <!-- ── Inquiries Panel ── -->
+    <div id="inquiries-panel" class="collapsible-panel collapsed">
+      <div class="panel-header" id="inquiries-header">
+        <div class="panel-header-left">
+          <span class="chevron">▾</span>
+          <span class="panel-title" id="inquiries-title">Inquiries</span>
+        </div>
+        <div class="panel-header-right">
+          <button class="btn btn-primary btn-sm" id="log-inquiry-btn">+ Log Inquiry</button>
+        </div>
+      </div>
+      <div class="panel-body" id="inquiries-body">
+        <p class="state-msg">No pending inquiries.</p>
+      </div>
+    </div>
+
+    <!-- ── Calendar Dashboard ── -->
     <div id="dashboard-view">
       <div class="cal-toolbar">
         <div class="cal-nav">
@@ -458,29 +345,38 @@
       </div>
     </div>
 
-    <!-- Add Appointment Form -->
+    <!-- ── Recents Panel ── -->
+    <div id="recents-panel" class="collapsible-panel collapsed" style="margin-top:1rem;">
+      <div class="panel-header" id="recents-header">
+        <div class="panel-header-left">
+          <span class="chevron">▾</span>
+          <span class="panel-title">Recents</span>
+        </div>
+      </div>
+      <div class="panel-body" id="recents-body">
+        <p class="state-msg">No recent responses yet.</p>
+      </div>
+    </div>
+
+    <!-- ── Add Appointment Form ── -->
     <div id="form-view" hidden>
       <div class="back-row">
         <button class="btn btn-ghost" id="back-btn">← Back</button>
         <h2>New Appointment</h2>
       </div>
-
       <form id="appointment-form" autocomplete="off">
         <div class="form-group">
           <label for="f-name">Client Name</label>
           <input id="f-name" type="text" name="clientName" placeholder="Jane Smith" required>
         </div>
-
         <div class="form-group">
           <label for="f-phone">Phone Number</label>
           <input id="f-phone" type="tel" name="phone" placeholder="(555) 123-4567" required>
         </div>
-
         <div class="form-group">
           <label for="f-address">Address</label>
           <input id="f-address" type="text" name="address" placeholder="123 Main St, City, ST" required>
         </div>
-
         <div class="form-group">
           <label for="f-service">Service Type</label>
           <select id="f-service" name="serviceType">
@@ -490,34 +386,27 @@
             <option value="custom">Custom Duration</option>
           </select>
         </div>
-
         <div class="form-group" id="custom-duration-wrap" hidden>
           <label for="f-duration">Duration (hours)</label>
           <input id="f-duration" type="number" name="customDuration" min="1" max="12" step="0.5" placeholder="3">
         </div>
-
         <div class="form-group">
           <label for="f-date">Date</label>
           <input id="f-date" type="date" name="date" required>
         </div>
-
         <div id="slots-loading" hidden>Checking availability…</div>
         <div id="no-slots" hidden>No available slots on this date. Try another day.</div>
-
         <div id="slots-section" hidden>
           <div class="form-group">
             <p>Available Times</p>
             <div id="slots"></div>
           </div>
         </div>
-
         <input type="hidden" name="selectedSlot">
-
         <div class="form-group">
           <label for="f-notes">Notes / Special Instructions</label>
           <textarea id="f-notes" name="notes" placeholder="Has a dog, key under mat, focus on kitchen…"></textarea>
         </div>
-
         <button class="btn btn-primary" type="submit" id="submit-btn" disabled style="width:100%;padding:0.75rem;">
           Book Appointment
         </button>
@@ -526,7 +415,60 @@
   </main>
 </div>
 
-<!-- Google Identity Services -->
+<!-- ══════════════ INQUIRY MODAL ══════════════ -->
+<div id="inquiry-modal" class="modal-overlay" hidden>
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3>Log Client Inquiry</h3>
+      <button class="btn-close" id="modal-close-btn">✕</button>
+    </div>
+    <div class="modal-body">
+      <form id="inquiry-form" autocomplete="off">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="inq-name">Client Name *</label>
+            <input id="inq-name" type="text" name="inqName" placeholder="Jane Smith" required>
+          </div>
+          <div class="form-group">
+            <label for="inq-phone">Phone Number *</label>
+            <input id="inq-phone" type="tel" name="inqPhone" placeholder="(555) 123-4567" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inq-message">Their Message (paste from SMS)</label>
+          <textarea id="inq-message" name="inqMessage" placeholder="e.g. Hi! Are you available next Tuesday at 10am for a standard cleaning?"></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="inq-date">Date They Asked About</label>
+            <input id="inq-date" type="date" name="inqDate">
+          </div>
+          <div class="form-group">
+            <label for="inq-time">Time They Asked About</label>
+            <select id="inq-time" name="inqTime">
+              <option value="">Select time…</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inq-service">Service Type</label>
+          <select id="inq-service" name="inqService">
+            <option value="standard">Standard Clean (2 hrs)</option>
+            <option value="deep">Deep Clean (4 hrs)</option>
+            <option value="moveout">Move-out Clean (6 hrs)</option>
+          </select>
+        </div>
+        <div id="availability-result"></div>
+      </form>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" id="save-inquiry-btn" style="background:#f4f5f7;color:#1c1c1c;flex:0 0 auto;">Save for Later</button>
+      <button class="btn btn-yes" id="send-yes-btn" disabled>✓ Send Yes</button>
+      <button class="btn btn-no"  id="send-no-btn"  disabled>✗ Send No</button>
+    </div>
+  </div>
+</div>
+
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script>
   // ─────────────────────────────────────────
@@ -534,10 +476,11 @@
   // ─────────────────────────────────────────
   const CLIENT_ID = '854568792646-a6oleovdeab0jc75bra1dulnsaisk0ii.apps.googleusercontent.com';
 
-  const SCOPES         = 'https://www.googleapis.com/auth/calendar.events https://www.googleapis.com/auth/calendar.readonly';
+  const SCOPES          = 'https://www.googleapis.com/auth/calendar.events https://www.googleapis.com/auth/calendar.readonly';
   const WORK_START_HOUR = 8;
   const WORK_END_HOUR   = 18;
   const SLOT_STEP_MINS  = 30;
+  const LS_KEY          = 'cs_inquiries';
 
   const SERVICE_DURATIONS = { standard: 2, deep: 4, moveout: 6 };
   const MONTH_NAMES = ['January','February','March','April','May','June',
@@ -545,61 +488,102 @@
 
   // ── State ──
   let tokenClient, accessToken;
-  let calYear, calMonth;   // currently displayed month
-  let calEvents  = [];     // events for the displayed month
-  let selectedDay = null;  // 'YYYY-MM-DD' or null
+  let calYear, calMonth;
+  let calEvents   = [];
+  let selectedDay = null;
+  let currentAvailability = null; // for the modal
 
   // ── DOM ──
-  const authScreen    = document.getElementById('auth-screen');
-  const appEl         = document.getElementById('app');
-  const dashboardView = document.getElementById('dashboard-view');
-  const formView      = document.getElementById('form-view');
-  const slotsSection  = document.getElementById('slots-section');
-  const slotsDiv      = document.getElementById('slots');
-  const slotsLoading  = document.getElementById('slots-loading');
-  const noSlots       = document.getElementById('no-slots');
-  const submitBtn     = document.getElementById('submit-btn');
-  const form          = document.getElementById('appointment-form');
-  const customDurWrap = document.getElementById('custom-duration-wrap');
-  const userNameEl    = document.getElementById('user-name');
-  const dayDetail     = document.getElementById('day-detail');
+  const authScreen     = document.getElementById('auth-screen');
+  const appEl          = document.getElementById('app');
+  const dashboardView  = document.getElementById('dashboard-view');
+  const formView       = document.getElementById('form-view');
+  const slotsSection   = document.getElementById('slots-section');
+  const slotsDiv       = document.getElementById('slots');
+  const slotsLoading   = document.getElementById('slots-loading');
+  const noSlots        = document.getElementById('no-slots');
+  const submitBtn      = document.getElementById('submit-btn');
+  const form           = document.getElementById('appointment-form');
+  const customDurWrap  = document.getElementById('custom-duration-wrap');
+  const userNameEl     = document.getElementById('user-name');
+  const dayDetail      = document.getElementById('day-detail');
   const dayDetailTitle = document.getElementById('day-detail-title');
   const dayDetailJobs  = document.getElementById('day-detail-jobs');
+  const inquiryModal   = document.getElementById('inquiry-modal');
+  const inquiryForm    = document.getElementById('inquiry-form');
+  const availResult    = document.getElementById('availability-result');
+  const sendYesBtn     = document.getElementById('send-yes-btn');
+  const sendNoBtn      = document.getElementById('send-no-btn');
 
   // ── Boot ──
   window.addEventListener('load', () => {
-    const tryInit = (attempts) => {
-      if (window.google?.accounts?.oauth2) {
-        initAuth();
-      } else if (attempts > 0) {
-        setTimeout(() => tryInit(attempts - 1), 300);
-      } else {
-        document.getElementById('sign-in-btn').textContent = 'Failed to load Google — refresh page';
-      }
+    buildTimeOptions();
+
+    const tryInit = (n) => {
+      if (window.google?.accounts?.oauth2) initAuth();
+      else if (n > 0) setTimeout(() => tryInit(n - 1), 300);
+      else document.getElementById('sign-in-btn').textContent = 'Failed to load Google — refresh page';
     };
     tryInit(20);
 
+    // Auth
     document.getElementById('sign-in-btn').onclick  = () => tokenClient.requestAccessToken();
     document.getElementById('sign-out-btn').onclick = signOut;
-    document.getElementById('add-btn').onclick       = () => showForm();
-    document.getElementById('back-btn').onclick      = showDashboard;
-    document.getElementById('prev-month').onclick    = () => navigateMonth(-1);
-    document.getElementById('next-month').onclick    = () => navigateMonth(1);
-    document.getElementById('today-btn').onclick     = jumpToToday;
-    document.getElementById('book-on-day-btn').onclick = () => showForm(selectedDay);
 
+    // Calendar nav
+    document.getElementById('prev-month').onclick       = () => navigateMonth(-1);
+    document.getElementById('next-month').onclick       = () => navigateMonth(1);
+    document.getElementById('today-btn').onclick        = jumpToToday;
+    document.getElementById('add-btn').onclick          = () => showForm();
+    document.getElementById('back-btn').onclick         = showDashboard;
+    document.getElementById('book-on-day-btn').onclick  = () => showForm(selectedDay);
+
+    // Panels
+    document.getElementById('inquiries-header').onclick = () => togglePanel('inquiries-panel');
+    document.getElementById('recents-header').onclick   = () => togglePanel('recents-panel');
+    document.getElementById('log-inquiry-btn').onclick  = (e) => { e.stopPropagation(); openLogModal(); };
+
+    // Modal
+    document.getElementById('modal-close-btn').onclick = closeLogModal;
+    document.getElementById('save-inquiry-btn').onclick = saveInquiry;
+    sendYesBtn.onclick = () => respondFromModal('yes');
+    sendNoBtn.onclick  = () => respondFromModal('no');
+
+    // Modal form: auto-check availability when date/time/service change
+    ['inq-date','inq-time','inq-service'].forEach(id => {
+      document.getElementById(id).addEventListener('change', checkInquiryAvailability);
+    });
+
+    // Booking form
     document.getElementById('f-service').addEventListener('change', onServiceChange);
     document.getElementById('f-date').addEventListener('change', onDateChange);
     form.addEventListener('submit', onSubmit);
-
     document.getElementById('f-date').min = todayStr();
+
+    // Close modal on overlay click
+    inquiryModal.addEventListener('click', (e) => {
+      if (e.target === inquiryModal) closeLogModal();
+    });
   });
+
+  function buildTimeOptions() {
+    const sel = document.getElementById('inq-time');
+    let cursor = WORK_START_HOUR * 60;
+    const end  = WORK_END_HOUR   * 60;
+    while (cursor <= end) {
+      const h = Math.floor(cursor / 60), m = cursor % 60;
+      const opt = document.createElement('option');
+      opt.value = `${pad(h)}:${pad(m)}`;
+      opt.textContent = fmtTime12(`${pad(h)}:${pad(m)}`);
+      sel.appendChild(opt);
+      cursor += SLOT_STEP_MINS;
+    }
+  }
 
   // ── Auth ──
   function initAuth() {
     tokenClient = google.accounts.oauth2.initTokenClient({
-      client_id: CLIENT_ID,
-      scope: SCOPES,
+      client_id: CLIENT_ID, scope: SCOPES,
       callback(resp) {
         if (resp.error) { alert('Sign-in failed: ' + resp.error); return; }
         accessToken = resp.access_token;
@@ -611,8 +595,8 @@
 
   async function fetchUserInfo() {
     try {
-      const resp = await callApi('GET', 'https://www.googleapis.com/oauth2/v3/userinfo');
-      userNameEl.textContent = resp.name || resp.email || '';
+      const r = await callApi('GET', 'https://www.googleapis.com/oauth2/v3/userinfo');
+      userNameEl.textContent = r.name || r.email || '';
     } catch { /* non-critical */ }
   }
 
@@ -620,48 +604,257 @@
     google.accounts.oauth2.revoke(accessToken, () => {
       accessToken = null;
       calYear = calMonth = undefined;
-      calEvents = [];
-      selectedDay = null;
-      appEl.hidden = true;
-      authScreen.hidden = false;
+      calEvents = []; selectedDay = null;
+      appEl.hidden = true; authScreen.hidden = false;
     });
   }
 
   // ── Views ──
   function showApp() {
-    authScreen.hidden = true;
-    appEl.hidden = false;
+    authScreen.hidden = true; appEl.hidden = false;
     showDashboard();
   }
 
   function showDashboard() {
-    formView.hidden = true;
-    dashboardView.hidden = false;
-
+    formView.hidden = true; dashboardView.hidden = false;
     if (!calYear) {
       const now = new Date();
-      calYear  = now.getFullYear();
-      calMonth = now.getMonth();
+      calYear = now.getFullYear(); calMonth = now.getMonth();
     }
-
     loadCalendar();
+    renderInquiries();
+    renderRecents();
   }
 
   function showForm(prefillDate = null) {
-    dashboardView.hidden = true;
-    formView.hidden = false;
-    form.reset();
-    clearSlots();
-    submitBtn.disabled  = true;
-    customDurWrap.hidden = true;
-
+    dashboardView.hidden = true; formView.hidden = false;
+    form.reset(); clearSlots();
+    submitBtn.disabled = true; customDurWrap.hidden = true;
     const dateInput = document.getElementById('f-date');
     dateInput.min = todayStr();
+    if (prefillDate) { dateInput.value = prefillDate; onDateChange({ target: dateInput }); }
+  }
 
-    if (prefillDate) {
-      dateInput.value = prefillDate;
-      onDateChange({ target: dateInput });
+  // ── Collapsible Panels ──
+  function togglePanel(panelId) {
+    const panel = document.getElementById(panelId);
+    panel.classList.toggle('collapsed');
+  }
+
+  // ── Inquiry Storage ──
+  function loadInquiries() {
+    try { return JSON.parse(localStorage.getItem(LS_KEY)) || []; } catch { return []; }
+  }
+
+  function saveInquiries(arr) {
+    if (arr.length > 100) {
+      const pending   = arr.filter(i => i.status === 'pending');
+      const responded = arr.filter(i => i.status === 'responded')
+                           .sort((a, b) => (a.respondedAt || 0) - (b.respondedAt || 0));
+      arr = [...pending, ...responded].slice(-100);
     }
+    localStorage.setItem(LS_KEY, JSON.stringify(arr));
+  }
+
+  // ── Render Panels ──
+  function renderInquiries() {
+    const all     = loadInquiries();
+    const pending = all.filter(i => i.status === 'pending')
+                       .sort((a, b) => b.createdAt - a.createdAt);
+
+    const titleEl = document.getElementById('inquiries-title');
+    titleEl.textContent = pending.length > 0 ? `Inquiries (${pending.length} pending)` : 'Inquiries';
+
+    const panel = document.getElementById('inquiries-panel');
+    if (pending.length > 0) panel.classList.remove('collapsed');
+
+    const body = document.getElementById('inquiries-body');
+    if (pending.length === 0) {
+      body.innerHTML = '<p class="state-msg">No pending inquiries. Tap "+ Log Inquiry" when a client reaches out.</p>';
+      return;
+    }
+    body.innerHTML = pending.map(renderInquiryCard).join('');
+  }
+
+  function renderRecents() {
+    const all       = loadInquiries();
+    const responded = all.filter(i => i.status === 'responded')
+                         .sort((a, b) => (b.respondedAt || 0) - (a.respondedAt || 0))
+                         .slice(0, 20);
+    const body = document.getElementById('recents-body');
+    if (responded.length === 0) {
+      body.innerHTML = '<p class="state-msg">No recent responses yet.</p>';
+      return;
+    }
+    body.innerHTML = responded.map(renderRecentCard).join('');
+  }
+
+  function renderInquiryCard(inq) {
+    const reqLabel = buildReqLabel(inq);
+    const badge = inq.available === true
+      ? '<span class="avail-badge yes">🟢 Available — Yes suggested</span>'
+      : inq.available === false
+        ? '<span class="avail-badge no">🔴 Busy — No suggested</span>'
+        : '<span class="avail-badge unknown">⏳ Availability not checked</span>';
+    const yesSugg = inq.available === true  ? 'suggested' : '';
+    const noSugg  = inq.available === false ? 'suggested' : '';
+    const safeId  = escHtml(inq.id);
+    return `
+      <div class="inquiry-card">
+        <div class="inquiry-header">
+          <span class="inq-name">${escHtml(inq.clientName)}</span>
+          <span class="inq-meta">${reqLabel}</span>
+        </div>
+        <div class="inq-phone">📞 ${escHtml(inq.phone)}</div>
+        ${inq.message ? `<div class="inq-message">${escHtml(inq.message)}</div>` : ''}
+        <div class="inq-avail-row">
+          ${badge}
+          <div class="inq-actions">
+            <button class="btn btn-yes btn-sm ${yesSugg}" onclick="sendResponse('${safeId}','yes')">✓ Send Yes</button>
+            <button class="btn btn-no  btn-sm ${noSugg}"  onclick="sendResponse('${safeId}','no')">✗ Send No</button>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  function renderRecentCard(inq) {
+    const reqLabel  = buildReqLabel(inq);
+    const respDate  = inq.respondedAt
+      ? new Date(inq.respondedAt).toLocaleDateString('en-US', {month:'short', day:'numeric'})
+      : '';
+    const badge = inq.response === 'yes'
+      ? '<span class="avail-badge yes">Responded Yes</span>'
+      : '<span class="avail-badge no">Responded No</span>';
+    const smsHref = `sms:${encodeURIComponent(inq.phone)}`;
+    return `
+      <div class="recent-card">
+        <div class="inquiry-header">
+          <span class="inq-name">${escHtml(inq.clientName)}</span>
+          <span class="inq-meta">${respDate}</span>
+        </div>
+        <div class="inq-phone">📞 ${escHtml(inq.phone)}${reqLabel ? ' · ' + reqLabel : ''}</div>
+        ${inq.message ? `<div class="inq-message">${escHtml(inq.message)}</div>` : ''}
+        <div style="margin-top:0.5rem;display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;">
+          ${badge}
+          <a href="${smsHref}" class="btn btn-sm" style="background:#f4f5f7;color:#3d7a5e;text-decoration:none;">📱 Text Again</a>
+        </div>
+      </div>`;
+  }
+
+  function buildReqLabel(inq) {
+    if (!inq.requestedDate) return '';
+    const d = new Date(inq.requestedDate + 'T12:00:00');
+    const dateStr = d.toLocaleDateString('en-US', {weekday:'short', month:'short', day:'numeric'});
+    return inq.requestedTime ? `${dateStr} @ ${fmtTime12(inq.requestedTime)}` : dateStr;
+  }
+
+  // ── Modal ──
+  function openLogModal() {
+    currentAvailability = null;
+    inquiryForm.reset();
+    availResult.innerHTML = '';
+    sendYesBtn.disabled = true; sendNoBtn.disabled = true;
+    sendYesBtn.classList.remove('suggested'); sendNoBtn.classList.remove('suggested');
+    inquiryModal.hidden = false;
+  }
+
+  function closeLogModal() { inquiryModal.hidden = true; }
+
+  async function checkInquiryAvailability() {
+    const date    = document.getElementById('inq-date').value;
+    const time    = document.getElementById('inq-time').value;
+    const service = document.getElementById('inq-service').value;
+    if (!date || !time) return;
+
+    const dur      = SERVICE_DURATIONS[service] || 2;
+    availResult.innerHTML = '<span style="color:#9ca3af;font-size:0.85rem;">Checking calendar…</span>';
+    sendYesBtn.disabled = true; sendNoBtn.disabled = true;
+    sendYesBtn.classList.remove('suggested'); sendNoBtn.classList.remove('suggested');
+
+    try {
+      const slotStart = new Date(`${date}T${time}:00`);
+      const slotEnd   = new Date(slotStart.getTime() + dur * 3600 * 1000);
+      const data = await callApi('POST',
+        'https://www.googleapis.com/calendar/v3/freeBusy', {}, {
+          timeMin: new Date(`${date}T00:00:00`).toISOString(),
+          timeMax: new Date(`${date}T23:59:59`).toISOString(),
+          items:   [{ id: 'primary' }]
+        });
+      const busy = (data.calendars?.primary?.busy) || [];
+      const occupied = busy.some(b => slotStart < new Date(b.end) && slotEnd > new Date(b.start));
+      currentAvailability = !occupied;
+
+      if (!occupied) {
+        availResult.innerHTML = '<span class="avail-badge yes" style="display:inline-flex;">🟢 Available — sending Yes is suggested</span>';
+        sendYesBtn.classList.add('suggested');
+      } else {
+        availResult.innerHTML = '<span class="avail-badge no" style="display:inline-flex;">🔴 Busy at this time — sending No is suggested</span>';
+        sendNoBtn.classList.add('suggested');
+      }
+      sendYesBtn.disabled = false; sendNoBtn.disabled = false;
+    } catch (err) {
+      availResult.innerHTML = `<span style="color:#b45309;font-size:0.85rem;">Could not check: ${escHtml(err.message)}</span>`;
+      sendYesBtn.disabled = false; sendNoBtn.disabled = false;
+    }
+  }
+
+  function buildInquiryFromModal() {
+    const name    = document.getElementById('inq-name').value.trim();
+    const phone   = document.getElementById('inq-phone').value.trim();
+    const message = document.getElementById('inq-message').value.trim();
+    const date    = document.getElementById('inq-date').value;
+    const time    = document.getElementById('inq-time').value;
+    const service = document.getElementById('inq-service').value;
+    if (!name || !phone) { alert('Please enter the client name and phone number.'); return null; }
+    return { id: String(Date.now()), clientName: name, phone, message,
+             requestedDate: date, requestedTime: time, serviceType: service,
+             available: currentAvailability, status: 'pending',
+             response: null, createdAt: Date.now(), respondedAt: null };
+  }
+
+  function saveInquiry() {
+    const inq = buildInquiryFromModal();
+    if (!inq) return;
+    const all = loadInquiries();
+    all.push(inq);
+    saveInquiries(all);
+    renderInquiries(); renderRecents();
+    closeLogModal();
+  }
+
+  function respondFromModal(answer) {
+    const inq = buildInquiryFromModal();
+    if (!inq) return;
+    inq.status = 'responded'; inq.response = answer; inq.respondedAt = Date.now();
+    openSms(inq, answer);
+    const all = loadInquiries(); all.push(inq); saveInquiries(all);
+    renderInquiries(); renderRecents();
+    closeLogModal();
+  }
+
+  function sendResponse(id, answer) {
+    const all = loadInquiries();
+    const inq = all.find(i => i.id === id);
+    if (!inq) return;
+    inq.status = 'responded'; inq.response = answer; inq.respondedAt = Date.now();
+    openSms(inq, answer);
+    saveInquiries(all);
+    renderInquiries(); renderRecents();
+  }
+
+  function openSms(inq, answer) {
+    let dateLabel = '', timeLabel = '';
+    if (inq.requestedDate) {
+      dateLabel = new Date(inq.requestedDate + 'T12:00:00')
+        .toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric'});
+    }
+    if (inq.requestedTime) timeLabel = ' at ' + fmtTime12(inq.requestedTime);
+
+    const body = answer === 'yes'
+      ? `Hi ${inq.clientName}! I'm available on ${dateLabel}${timeLabel}. Reply to confirm and I'll get you on my schedule! 😊`
+      : `Hi ${inq.clientName}! Unfortunately I'm booked on ${dateLabel}${timeLabel}. Would a different day work? I'd love to help!`;
+
+    window.location.href = `sms:${inq.phone}?body=${encodeURIComponent(body)}`;
   }
 
   // ── Calendar ──
@@ -669,41 +862,28 @@
     calMonth += delta;
     if (calMonth > 11) { calMonth = 0; calYear++; }
     if (calMonth < 0)  { calMonth = 11; calYear--; }
-    selectedDay = null;
-    dayDetail.hidden = true;
+    selectedDay = null; dayDetail.hidden = true;
     loadCalendar();
   }
 
   function jumpToToday() {
     const now = new Date();
-    calYear   = now.getFullYear();
-    calMonth  = now.getMonth();
-    selectedDay = null;
-    dayDetail.hidden = true;
+    calYear = now.getFullYear(); calMonth = now.getMonth();
+    selectedDay = null; dayDetail.hidden = true;
     loadCalendar();
   }
 
   async function loadCalendar() {
     document.getElementById('cal-grid').innerHTML =
       '<p class="state-msg" style="grid-column:1/-1;padding:3rem 1rem;">Loading…</p>';
-
-    const monthStart = new Date(calYear, calMonth, 1);
-    const monthEnd   = new Date(calYear, calMonth + 1, 0, 23, 59, 59);
-
     try {
       const data = await callApi('GET',
         'https://www.googleapis.com/calendar/v3/calendars/primary/events', {
-          timeMin:      monthStart.toISOString(),
-          timeMax:      monthEnd.toISOString(),
-          orderBy:      'startTime',
-          singleEvents: 'true',
-          maxResults:   '250'
+          timeMin:      new Date(calYear, calMonth, 1).toISOString(),
+          timeMax:      new Date(calYear, calMonth + 1, 0, 23, 59, 59).toISOString(),
+          orderBy:      'startTime', singleEvents: 'true', maxResults: '250'
         });
-
-      calEvents = (data.items || []).filter(e =>
-        e.summary && e.summary.startsWith('Cleaning –')
-      );
-
+      calEvents = (data.items || []).filter(e => e.summary?.startsWith('Cleaning –'));
       renderCalendar();
     } catch (err) {
       document.getElementById('cal-grid').innerHTML =
@@ -712,14 +892,13 @@
   }
 
   function renderCalendar() {
-    const now      = new Date();
-    const todayDs  = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`;
-    const isCurrent = calYear === now.getFullYear() && calMonth === now.getMonth();
+    const now     = new Date();
+    const todayDs = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`;
+    const isCur   = calYear === now.getFullYear() && calMonth === now.getMonth();
 
     document.getElementById('cal-title').textContent = `${MONTH_NAMES[calMonth]} ${calYear}`;
-    document.getElementById('today-btn').hidden = isCurrent;
+    document.getElementById('today-btn').hidden = isCur;
 
-    // Build event map: dateStr -> events[]
     const evMap = {};
     calEvents.forEach(ev => {
       const s  = new Date(ev.start.dateTime || ev.start.date);
@@ -728,124 +907,81 @@
       evMap[ds].push(ev);
     });
 
-    const firstOfMonth = new Date(calYear, calMonth, 1);
-    const startOffset  = firstOfMonth.getDay(); // 0=Sun
-    const grid         = document.getElementById('cal-grid');
-
-    // Day-of-week headers
+    const startOff = new Date(calYear, calMonth, 1).getDay();
+    const grid = document.getElementById('cal-grid');
     const headers = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
       .map(d => `<div class="cal-day-header">${d}</div>`).join('');
 
-    // 42 cells (6 weeks)
     const cells = [];
-    const cursor = new Date(calYear, calMonth, 1 - startOffset);
-
+    const cursor = new Date(calYear, calMonth, 1 - startOff);
     for (let i = 0; i < 42; i++) {
-      const y  = cursor.getFullYear();
-      const m  = cursor.getMonth();
-      const d  = cursor.getDate();
+      const y = cursor.getFullYear(), m = cursor.getMonth(), d = cursor.getDate();
       const ds = `${y}-${pad(m+1)}-${pad(d)}`;
-
-      const inMonth   = m === calMonth && y === calYear;
-      const isToday   = ds === todayDs;
-      const isSel     = ds === selectedDay;
-      const dayEvs    = evMap[ds] || [];
-
-      let cls = 'cal-day';
-      if (!inMonth) cls += ' other-month';
-      if (isToday)  cls += ' today';
-      if (isSel)    cls += ' selected';
-
-      const dots = dayEvs.slice(0, 3).map(() => '<span class="day-dot"></span>').join('');
-      const more = dayEvs.length > 3 ? `<span class="day-more">+${dayEvs.length - 3}</span>` : '';
-      const dotsHtml = dayEvs.length ? `<div class="day-dots">${dots}${more}</div>` : '';
-
-      cells.push(
-        `<div class="${cls}" data-date="${ds}" data-in-month="${inMonth}">` +
-          `<span class="day-num">${d}</span>${dotsHtml}` +
-        `</div>`
-      );
-
+      const inMonth = m === calMonth && y === calYear;
+      const isToday = ds === todayDs, isSel = ds === selectedDay;
+      const dayEvs  = evMap[ds] || [];
+      let cls = 'cal-day' + (!inMonth?' other-month':'') + (isToday?' today':'') + (isSel?' selected':'');
+      const dots = dayEvs.slice(0,3).map(() => '<span class="day-dot"></span>').join('');
+      const more = dayEvs.length > 3 ? `<span class="day-more">+${dayEvs.length-3}</span>` : '';
+      cells.push(`<div class="${cls}" data-date="${ds}" data-in="${inMonth}"><span class="day-num">${d}</span>${dayEvs.length?`<div class="day-dots">${dots}${more}</div>`:''}</div>`);
       cursor.setDate(cursor.getDate() + 1);
     }
 
     grid.innerHTML = headers + cells.join('');
-
-    grid.querySelectorAll('.cal-day[data-in-month="true"]').forEach(cell => {
+    grid.querySelectorAll('.cal-day[data-in="true"]').forEach(cell => {
       cell.addEventListener('click', () => selectDay(cell.dataset.date));
     });
 
-    // Re-render detail panel if selected day is still in this month
     if (selectedDay) {
-      const [sy, sm] = selectedDay.split('-').map(Number);
-      if (sy === calYear && sm - 1 === calMonth) {
-        renderDayDetail();
-      } else {
-        selectedDay = null;
-        dayDetail.hidden = true;
-      }
+      const [sy,sm] = selectedDay.split('-').map(Number);
+      if (sy === calYear && sm-1 === calMonth) renderDayDetail();
+      else { selectedDay = null; dayDetail.hidden = true; }
     }
   }
 
-  function selectDay(dateStr) {
-    if (selectedDay === dateStr) {
-      // Toggle off
-      selectedDay = null;
-      dayDetail.hidden = true;
+  function selectDay(ds) {
+    if (selectedDay === ds) {
+      selectedDay = null; dayDetail.hidden = true;
       document.querySelectorAll('.cal-day.selected').forEach(c => c.classList.remove('selected'));
       return;
     }
-
-    selectedDay = dateStr;
+    selectedDay = ds;
     document.querySelectorAll('.cal-day').forEach(c => c.classList.remove('selected'));
-    document.querySelector(`.cal-day[data-date="${dateStr}"]`)?.classList.add('selected');
+    document.querySelector(`.cal-day[data-date="${ds}"]`)?.classList.add('selected');
     renderDayDetail();
   }
 
   function renderDayDetail() {
-    const [y, m, d] = selectedDay.split('-').map(Number);
-    const date = new Date(y, m - 1, d);
-    dayDetailTitle.textContent = date.toLocaleDateString('en-US', {
-      weekday: 'long', month: 'long', day: 'numeric'
-    });
-
+    const [y,m,d] = selectedDay.split('-').map(Number);
+    dayDetailTitle.textContent = new Date(y,m-1,d)
+      .toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
     const dayEvs = calEvents.filter(ev => {
       const s  = new Date(ev.start.dateTime || ev.start.date);
-      const ds = `${s.getFullYear()}-${pad(s.getMonth()+1)}-${pad(s.getDate())}`;
-      return ds === selectedDay;
+      return `${s.getFullYear()}-${pad(s.getMonth()+1)}-${pad(s.getDate())}` === selectedDay;
     });
-
-    if (dayEvs.length === 0) {
-      dayDetailJobs.innerHTML = '<p style="font-size:0.88rem;color:#9ca3af;padding:0.25rem 0;">No jobs booked — tap "+ Book this day" to add one.</p>';
-    } else {
-      dayDetailJobs.innerHTML = dayEvs.map(renderJobCard).join('');
-    }
-
+    dayDetailJobs.innerHTML = dayEvs.length
+      ? dayEvs.map(renderJobCard).join('')
+      : '<p style="font-size:0.88rem;color:#9ca3af;padding:0.25rem 0;">No jobs booked — tap "+ Book this day" to add one.</p>';
     dayDetail.hidden = false;
     dayDetail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
   function renderJobCard(ev) {
-    const start   = new Date(ev.start.dateTime || ev.start.date);
-    const end     = new Date(ev.end.dateTime   || ev.end.date);
-    const name    = ev.summary.replace('Cleaning – ', '');
-    const desc    = ev.description || '';
+    const start = new Date(ev.start.dateTime || ev.start.date);
+    const end   = new Date(ev.end.dateTime   || ev.end.date);
+    const name  = ev.summary.replace('Cleaning – ','');
+    const desc  = ev.description || '';
     const phone   = (desc.match(/Phone: ([^\n]+)/)   || [])[1] || '';
     const service = (desc.match(/Service: ([^\n]+)/) || [])[1] || '';
-
-    return `
-      <div class="job-card">
-        <div class="job-header">
-          <span class="job-name">${escHtml(name)}</span>
-          <span class="job-time">${fmtTime(start)} – ${fmtTime(end)}</span>
-        </div>
-        ${ev.location ? `<div class="job-detail">📍 ${escHtml(ev.location)}</div>` : ''}
-        ${service     ? `<div class="job-detail">🧹 ${escHtml(service)}</div>`      : ''}
-        ${phone       ? `<div class="job-detail">📞 ${escHtml(phone)}</div>`        : ''}
-      </div>`;
+    return `<div class="job-card">
+      <div class="job-header"><span class="job-name">${escHtml(name)}</span><span class="job-time">${fmtTime(start)} – ${fmtTime(end)}</span></div>
+      ${ev.location?`<div class="job-detail">📍 ${escHtml(ev.location)}</div>`:''}
+      ${service?`<div class="job-detail">🧹 ${escHtml(service)}</div>`:''}
+      ${phone?`<div class="job-detail">📞 ${escHtml(phone)}</div>`:''}
+    </div>`;
   }
 
-  // ── Form helpers ──
+  // ── Booking form ──
   function onServiceChange(e) {
     customDurWrap.hidden = e.target.value !== 'custom';
     const date = document.getElementById('f-date').value;
@@ -855,27 +991,17 @@
   async function onDateChange(e) {
     const dateVal = e.target.value;
     if (!dateVal) return;
-
     const dur = getDuration();
     if (!dur) return;
-
-    clearSlots();
-    slotsLoading.hidden = false;
-
+    clearSlots(); slotsLoading.hidden = false;
     try {
       const slots = await getAvailableSlots(dateVal, dur);
       slotsLoading.hidden = true;
-
       if (slots.length === 0) { noSlots.hidden = false; return; }
-
       slotsDiv.innerHTML = slots.map(s =>
         `<button type="button" class="slot-chip" data-iso="${s.toISOString()}">${fmtTime(s)}</button>`
       ).join('');
-
-      slotsDiv.querySelectorAll('.slot-chip').forEach(chip => {
-        chip.onclick = () => selectSlot(chip);
-      });
-
+      slotsDiv.querySelectorAll('.slot-chip').forEach(chip => { chip.onclick = () => selectSlot(chip); });
       slotsSection.hidden = false;
     } catch (err) {
       slotsLoading.hidden = true;
@@ -892,9 +1018,7 @@
   }
 
   function clearSlots() {
-    slotsSection.hidden = true;
-    noSlots.hidden = true;
-    slotsLoading.hidden = true;
+    slotsSection.hidden = true; noSlots.hidden = true; slotsLoading.hidden = true;
     slotsDiv.innerHTML = '';
     form.querySelector('[name="selectedSlot"]').value = '';
     submitBtn.disabled = true;
@@ -902,134 +1026,74 @@
 
   function getDuration() {
     const svc = document.getElementById('f-service').value;
-    if (svc === 'custom') {
-      const v = parseFloat(document.getElementById('f-duration').value);
-      return isNaN(v) ? null : v;
-    }
+    if (svc === 'custom') { const v = parseFloat(document.getElementById('f-duration').value); return isNaN(v)?null:v; }
     return SERVICE_DURATIONS[svc];
   }
 
   async function getAvailableSlots(dateStr, durationHrs) {
-    const dayStart = new Date(`${dateStr}T00:00:00`);
-    const dayEnd   = new Date(`${dateStr}T23:59:59`);
-
     const data = await callApi('POST',
       'https://www.googleapis.com/calendar/v3/freeBusy', {}, {
-        timeMin: dayStart.toISOString(),
-        timeMax: dayEnd.toISOString(),
+        timeMin: new Date(`${dateStr}T00:00:00`).toISOString(),
+        timeMax: new Date(`${dateStr}T23:59:59`).toISOString(),
         items:   [{ id: 'primary' }]
       });
-
-    const busy       = (data.calendars?.primary?.busy) || [];
-    const durationMs = durationHrs * 3600 * 1000;
-    const slots      = [];
-
-    let cursor  = new Date(`${dateStr}T${pad(WORK_START_HOUR)}:00:00`);
+    const busy = (data.calendars?.primary?.busy) || [];
+    const durMs = durationHrs * 3600 * 1000, slots = [];
+    let cursor = new Date(`${dateStr}T${pad(WORK_START_HOUR)}:00:00`);
     const limit = new Date(`${dateStr}T${pad(WORK_END_HOUR)}:00:00`);
-
-    while (cursor.getTime() + durationMs <= limit.getTime()) {
-      const slotEnd  = new Date(cursor.getTime() + durationMs);
-      const occupied = busy.some(b => {
-        const bs = new Date(b.start), be = new Date(b.end);
-        return cursor < be && slotEnd > bs;
-      });
-      if (!occupied) slots.push(new Date(cursor));
+    while (cursor.getTime() + durMs <= limit.getTime()) {
+      const slotEnd = new Date(cursor.getTime() + durMs);
+      if (!busy.some(b => cursor < new Date(b.end) && slotEnd > new Date(b.start)))
+        slots.push(new Date(cursor));
       cursor = new Date(cursor.getTime() + SLOT_STEP_MINS * 60 * 1000);
     }
-
     return slots;
   }
 
   async function onSubmit(e) {
     e.preventDefault();
-    const fd = new FormData(form);
-    const d  = Object.fromEntries(fd.entries());
+    const d = Object.fromEntries(new FormData(form).entries());
     if (!d.selectedSlot) return;
-
     const dur = getDuration();
-    const serviceLabels = {
-      standard: 'Standard Clean (2 hrs)',
-      deep:     'Deep Clean (4 hrs)',
-      moveout:  'Move-out Clean (6 hrs)',
-      custom:   `Custom (${dur} hrs)`
-    };
-
+    const labels = { standard:'Standard Clean (2 hrs)', deep:'Deep Clean (4 hrs)', moveout:'Move-out Clean (6 hrs)', custom:`Custom (${dur} hrs)` };
     const start = new Date(d.selectedSlot);
     const end   = new Date(start.getTime() + dur * 3600 * 1000);
-
-    const descLines = [`Phone: ${d.phone}`, `Service: ${serviceLabels[d.serviceType]}`];
-    if (d.notes.trim()) descLines.push(`Notes: ${d.notes.trim()}`);
-
-    const event = {
-      summary:     `Cleaning – ${d.clientName}`,
-      location:    d.address,
-      description: descLines.join('\n'),
-      start:       { dateTime: start.toISOString() },
-      end:         { dateTime: end.toISOString() }
-    };
-
-    submitBtn.disabled    = true;
-    submitBtn.textContent = 'Booking…';
-
+    const lines = [`Phone: ${d.phone}`, `Service: ${labels[d.serviceType]}`];
+    if (d.notes.trim()) lines.push(`Notes: ${d.notes.trim()}`);
+    const event = { summary:`Cleaning – ${d.clientName}`, location:d.address,
+                    description:lines.join('\n'),
+                    start:{dateTime:start.toISOString()}, end:{dateTime:end.toISOString()} };
+    submitBtn.disabled = true; submitBtn.textContent = 'Booking…';
     try {
-      await callApi('POST',
-        'https://www.googleapis.com/calendar/v3/calendars/primary/events', {}, event);
-      submitBtn.textContent      = '✓ Booked!';
-      submitBtn.style.background = '#2a9d8f';
-
-      // Navigate calendar to the booked month so the dot shows up
-      const bookedDate = new Date(d.selectedSlot);
-      calYear  = bookedDate.getFullYear();
-      calMonth = bookedDate.getMonth();
-      selectedDay = `${calYear}-${pad(calMonth+1)}-${pad(bookedDate.getDate())}`;
-
-      setTimeout(() => {
-        submitBtn.textContent      = 'Book Appointment';
-        submitBtn.style.background = '';
-        showDashboard();
-      }, 1200);
+      await callApi('POST','https://www.googleapis.com/calendar/v3/calendars/primary/events',{},event);
+      submitBtn.textContent = '✓ Booked!'; submitBtn.style.background = '#2a9d8f';
+      const bd = new Date(d.selectedSlot);
+      calYear = bd.getFullYear(); calMonth = bd.getMonth();
+      selectedDay = `${calYear}-${pad(calMonth+1)}-${pad(bd.getDate())}`;
+      setTimeout(() => { submitBtn.textContent='Book Appointment'; submitBtn.style.background=''; showDashboard(); }, 1200);
     } catch (err) {
-      submitBtn.disabled    = false;
-      submitBtn.textContent = 'Book Appointment';
+      submitBtn.disabled = false; submitBtn.textContent = 'Book Appointment';
       alert('Could not create event: ' + err.message);
     }
   }
 
   // ── API wrapper ──
   async function callApi(method, url, params = {}, body = null) {
-    const qs      = new URLSearchParams(params).toString();
+    const qs = new URLSearchParams(params).toString();
     const fullUrl = qs ? `${url}?${qs}` : url;
-
-    const opts = {
-      method,
-      headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' }
-    };
+    const opts = { method, headers: { Authorization:`Bearer ${accessToken}`, 'Content-Type':'application/json' } };
     if (body) opts.body = JSON.stringify(body);
-
     const res = await fetch(fullUrl, opts);
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      throw new Error(err.error?.message || `HTTP ${res.status}`);
-    }
+    if (!res.ok) { const err = await res.json().catch(()=>({})); throw new Error(err.error?.message || `HTTP ${res.status}`); }
     return res.status === 204 ? null : res.json();
   }
 
   // ── Utils ──
-  function fmtTime(d) {
-    return d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
-  }
-
-  function escHtml(s) {
-    return String(s)
-      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
-
-  function pad(n) { return String(n).padStart(2, '0'); }
-
-  function todayStr() {
-    const d = new Date();
-    return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
-  }
+  function fmtTime(d) { return d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',hour12:true}); }
+  function fmtTime12(t) { const [h,m]=t.split(':').map(Number); return `${h%12||12}:${pad(m)} ${h>=12?'PM':'AM'}`; }
+  function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  function pad(n) { return String(n).padStart(2,'0'); }
+  function todayStr() { const d=new Date(); return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; }
 </script>
 </body>
 </html>
