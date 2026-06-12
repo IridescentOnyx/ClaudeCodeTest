@@ -27,6 +27,8 @@
       --shadow-lg:0 18px 48px rgba(16,18,24,0.14);
       --radius:18px; --radius-sm:13px;
       --ease:cubic-bezier(.4,0,.2,1);
+      /* service colors (muted, editorial) */
+      --svc-standard:#4f46e5; --svc-deep:#0d9488; --svc-moveout:#d97706; --svc-custom:#64748b;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -112,7 +114,7 @@
     }
 
     /* ── Main ── */
-    main { max-width: 820px; margin: 0 auto; padding: 1.6rem 1rem 3rem; }
+    main { max-width: 1280px; margin: 0 auto; padding: 1.6rem 1.25rem 3rem; }
 
     /* ── Stat Hero ── */
     #stats-hero {
@@ -334,9 +336,22 @@
     /* ── Calendar Toolbar ── */
     .cal-toolbar {
       display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 1.1rem; gap: 0.75rem; flex-wrap: wrap;
+      margin-bottom: 0.85rem; gap: 0.75rem 1rem; flex-wrap: wrap;
     }
     .cal-nav { display: flex; align-items: center; gap: 0.5rem; }
+    .cal-tools { display: flex; align-items: center; gap: 0.55rem; flex-wrap: wrap; }
+    #cal-title {
+      font-family: 'Fraunces', Georgia, serif; font-size: 1.3rem; font-weight: 600;
+      letter-spacing: -0.01em; color: var(--ink); margin-left: 0.4rem;
+      font-variant-numeric: tabular-nums; white-space: nowrap;
+    }
+    .btn-step {
+      width: 34px; height: 34px; border-radius: 9px; cursor: pointer;
+      background: var(--surface); border: 1px solid var(--line-2); color: var(--ink);
+      font-size: 1.25rem; line-height: 1; display: inline-flex; align-items: center; justify-content: center;
+      font-family: inherit; transition: background 0.15s var(--ease), border-color 0.15s var(--ease);
+    }
+    .btn-step:hover { background: var(--surface-2); border-color: var(--muted); }
     .cal-nav-select {
       background: var(--surface);
       border: 1px solid var(--line-2); border-radius: 11px;
@@ -346,6 +361,100 @@
     }
     .cal-nav-select:hover { border-color: var(--muted); }
     .cal-nav-select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-ring); }
+    #cal-search {
+      background: var(--surface); border: 1px solid var(--line-2); border-radius: 11px;
+      padding: 0.45rem 0.8rem; font-size: 0.88rem; font-family: inherit; color: var(--ink);
+      width: 180px; transition: border-color 0.18s var(--ease), box-shadow 0.18s var(--ease), width 0.18s var(--ease);
+    }
+    #cal-search::placeholder { color: var(--faint); }
+    #cal-search:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-ring); width: 220px; }
+
+    /* view switcher (segmented) */
+    .view-switch { display: inline-flex; background: var(--surface-2); border: 1px solid var(--line-2); border-radius: 11px; padding: 2px; }
+    .vs-btn {
+      border: none; background: transparent; cursor: pointer; font-family: inherit;
+      font-size: 0.82rem; font-weight: 600; color: var(--muted); padding: 0.38rem 0.7rem;
+      border-radius: 9px; transition: background 0.15s var(--ease), color 0.15s var(--ease);
+    }
+    .vs-btn:hover { color: var(--ink); }
+    .vs-btn.active { background: var(--surface); color: var(--accent); box-shadow: var(--shadow-sm); }
+
+    /* legend / service filter */
+    .cal-legend { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+    .legend-chip {
+      display: inline-flex; align-items: center; gap: 0.4rem; cursor: pointer;
+      font-size: 0.78rem; font-weight: 600; color: var(--ink); user-select: none;
+      background: var(--surface); border: 1px solid var(--line-2); border-radius: 20px;
+      padding: 0.28rem 0.7rem; transition: opacity 0.15s var(--ease), background 0.15s var(--ease);
+    }
+    .legend-chip .swatch { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+    .legend-chip.off { opacity: 0.4; background: var(--surface-2); text-decoration: line-through; }
+
+    /* layout: calendar + sticky rail */
+    .cal-layout { display: grid; grid-template-columns: minmax(0,1fr) 340px; gap: 1.25rem; align-items: start; }
+    .cal-main { min-width: 0; }
+    .cal-rail { display: flex; flex-direction: column; gap: 1rem; position: sticky; top: 84px; }
+    .rail-card {
+      background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+      box-shadow: var(--shadow-sm); padding: 1.1rem 1.25rem; animation: fadeInUp 0.45s var(--ease) both;
+    }
+    .rail-head { font-family: 'Fraunces', Georgia, serif; font-size: 1.1rem; font-weight: 600; color: var(--ink); margin-bottom: 0.75rem; }
+    .rail-row {
+      display: flex; align-items: baseline; gap: 0.6rem; padding: 0.5rem 0; cursor: pointer;
+      border-bottom: 1px solid var(--line);
+    }
+    .rail-row:last-child { border-bottom: none; }
+    .rail-row:hover .rail-client { color: var(--accent); }
+    .rail-when { font-size: 0.74rem; font-weight: 700; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; min-width: 84px; }
+    .rail-client { font-size: 0.86rem; font-weight: 600; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .rail-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; align-self: center; }
+
+    /* ── Time grid (week / day) ── */
+    #time-grid {
+      background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+      box-shadow: var(--shadow-sm); overflow: hidden;
+    }
+    .tg-head { display: grid; border-bottom: 1px solid var(--line); background: var(--surface-2); }
+    .tg-head-cell { padding: 0.5rem 0.4rem; text-align: center; }
+    .tg-head-dow { font-size: 0.66rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--faint); }
+    .tg-head-date { font-size: 1.05rem; font-weight: 600; font-family: 'Fraunces', Georgia, serif; color: var(--ink); font-variant-numeric: tabular-nums; }
+    .tg-head-cell.today .tg-head-date { color: var(--accent); }
+    .tg-body { display: grid; position: relative; }
+    .tg-hour-label { font-size: 0.68rem; color: var(--faint); text-align: right; padding: 0 0.5rem; transform: translateY(-0.5em); font-variant-numeric: tabular-nums; }
+    .tg-col { position: relative; border-left: 1px solid var(--line); }
+    .tg-slot { border-bottom: 1px solid var(--line); cursor: pointer; transition: background 0.12s var(--ease); }
+    .tg-slot:hover { background: var(--accent-soft); }
+    .tg-event {
+      position: absolute; left: 3px; right: 3px; border-radius: 8px; padding: 0.3rem 0.45rem;
+      color: #fff; overflow: hidden; cursor: pointer; box-shadow: var(--shadow-sm);
+      border: 1px solid rgba(255,255,255,0.25); transition: filter 0.15s var(--ease), transform 0.12s var(--ease);
+    }
+    .tg-event:hover { filter: brightness(1.06); transform: translateY(-1px); }
+    .tg-event .te-time { font-size: 0.68rem; font-weight: 600; opacity: 0.95; }
+    .tg-event .te-name { font-size: 0.78rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    /* ── Agenda ── */
+    #agenda-list {
+      background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+      box-shadow: var(--shadow-sm); padding: 1.1rem 1.35rem;
+    }
+    .agenda-group { margin-bottom: 1.1rem; }
+    .agenda-group:last-child { margin-bottom: 0; }
+    .agenda-date {
+      font-family: 'Fraunces', Georgia, serif; font-size: 1.05rem; font-weight: 600; color: var(--ink);
+      padding-bottom: 0.5rem; margin-bottom: 0.7rem; border-bottom: 1px solid var(--line);
+    }
+    .agenda-date.is-today { color: var(--accent); }
+
+    /* service color helpers (dots/badges) */
+    .svc-standard { background: var(--svc-standard); }
+    .svc-deep     { background: var(--svc-deep); }
+    .svc-moveout  { background: var(--svc-moveout); }
+    .svc-custom   { background: var(--svc-custom); }
+    .job-card.lead-standard::before { background: var(--svc-standard); }
+    .job-card.lead-deep::before     { background: var(--svc-deep); }
+    .job-card.lead-moveout::before  { background: var(--svc-moveout); }
+    .job-card.lead-custom::before   { background: var(--svc-custom); }
 
     /* ── Parse hint ── */
     #parse-hint {
@@ -395,7 +504,7 @@
       position: relative; background: var(--surface);
       border: 1px solid var(--line); border-radius: var(--radius);
       box-shadow: var(--shadow-sm);
-      padding: 1.15rem 1.35rem; margin-top: 1rem; overflow: hidden;
+      padding: 1.15rem 1.35rem; overflow: hidden;
       animation: fadeInUp 0.4s var(--ease) both;
     }
     #day-detail::before {
@@ -483,21 +592,31 @@
     }
 
     /* ── Responsive ── */
+    @media (max-width: 980px) {
+      .cal-layout { grid-template-columns: 1fr; }
+      .cal-rail { position: static; flex-direction: column; }
+    }
     @media (max-width: 640px) {
       #stats-hero { grid-template-columns: repeat(2, 1fr); }
+      .cal-tools { width: 100%; }
+      #cal-search { flex: 1; width: auto; }
+      #cal-search:focus { width: auto; }
     }
     @media (max-width: 520px) {
       main { padding: 1.1rem 0.85rem 2.5rem; }
       .cal-day { min-height: 56px; padding: 0.35rem 0.3rem; }
       .cal-day-header { font-size: 0.6rem; }
-      .cal-toolbar { flex-direction: column; align-items: stretch; }
+      .cal-toolbar { align-items: stretch; }
       .cal-nav { flex-wrap: wrap; }
+      #cal-title { font-size: 1.1rem; }
       #user-name { display: none; }
       .auth-card { padding: 2.5rem 1.5rem; }
       .form-row { grid-template-columns: 1fr; }
       .inq-avail-row { flex-direction: column; align-items: flex-start; }
       #toast-container { top: auto; bottom: 1rem; left: 1rem; right: 1rem; max-width: none; }
       .stat-num { font-size: 1.75rem; }
+      .view-switch { width: 100%; }
+      .vs-btn { flex: 1; }
     }
 
     /* ── Keyframes ── */
@@ -586,23 +705,49 @@
     <div id="dashboard-view">
       <div class="cal-toolbar">
         <div class="cal-nav">
-          <select id="cal-month-sel" class="cal-nav-select"></select>
-          <select id="cal-year-sel"  class="cal-nav-select"></select>
-          <button class="btn btn-ghost" id="today-btn" hidden style="padding:0.35rem 0.75rem;font-size:0.82rem;">Today</button>
+          <button class="btn-step" id="cal-prev" title="Previous (←)" aria-label="Previous">‹</button>
+          <button class="btn-step" id="cal-next" title="Next (→)" aria-label="Next">›</button>
+          <button class="btn btn-secondary btn-sm" id="today-btn">Today</button>
+          <span id="cal-title">—</span>
         </div>
-        <button class="btn btn-primary" id="add-btn">+ New Appointment</button>
+        <div class="cal-tools">
+          <input id="cal-search" type="search" placeholder="Search clients…" autocomplete="off">
+          <select id="cal-month-sel" class="cal-nav-select" title="Jump to month"></select>
+          <select id="cal-year-sel"  class="cal-nav-select" title="Jump to year"></select>
+          <div id="view-switch" class="view-switch" role="tablist">
+            <button data-view="month" class="vs-btn">Month</button>
+            <button data-view="week"  class="vs-btn">Week</button>
+            <button data-view="day"   class="vs-btn">Day</button>
+            <button data-view="agenda" class="vs-btn">Agenda</button>
+          </div>
+          <button class="btn btn-primary" id="add-btn">+ New</button>
+        </div>
       </div>
 
-      <div id="cal-grid">
-        <p class="state-msg" style="grid-column:1/-1;">Loading…</p>
-      </div>
+      <div class="cal-legend" id="cal-legend"></div>
 
-      <div id="day-detail" hidden>
-        <div class="day-detail-header">
-          <span id="day-detail-title"></span>
-          <button class="btn btn-primary btn-sm" id="book-on-day-btn">+ Book this day</button>
+      <div class="cal-layout">
+        <div class="cal-main">
+          <div id="cal-grid">
+            <p class="state-msg" style="grid-column:1/-1;">Loading…</p>
+          </div>
+          <div id="time-grid" hidden></div>
+          <div id="agenda-list" hidden></div>
         </div>
-        <div id="day-detail-jobs"></div>
+
+        <aside class="cal-rail">
+          <div id="day-detail" hidden>
+            <div class="day-detail-header">
+              <span id="day-detail-title"></span>
+              <button class="btn btn-primary btn-sm" id="book-on-day-btn">+ Book</button>
+            </div>
+            <div id="day-detail-jobs"></div>
+          </div>
+          <div class="rail-card" id="rail-upcoming-card">
+            <div class="rail-head">Upcoming</div>
+            <div id="rail-upcoming"></div>
+          </div>
+        </aside>
       </div>
     </div>
 
@@ -774,8 +919,17 @@
 
   // ── State ──
   let tokenClient, accessToken;
-  let calYear, calMonth;
-  let calEvents   = [];
+  let calYear, calMonth;          // kept in sync with viewDate for the month/year dropdowns
+  let viewDate    = new Date();   // focus date for the active view
+  let calView     = 'month';      // 'month' | 'week' | 'day' | 'agenda'
+  let activeServices = new Set(['standard','deep','moveout','custom']); // service filter
+  let searchTerm  = '';           // active client search (empty = none)
+  let searchTimer = null;
+  const HOUR_PX   = 48;           // time-grid row height
+  const SERVICE_COLORS = { standard:'var(--svc-standard)', deep:'var(--svc-deep)', moveout:'var(--svc-moveout)', custom:'var(--svc-custom)' };
+  const SERVICE_LABELS = { standard:'Standard', deep:'Deep', moveout:'Move-out', custom:'Custom' };
+  let calEvents   = [];          // events for the active view's range
+  let upcomingEvents = [];       // stable now→+60d set for stats + rail
   let selectedDay = null;
   let currentAvailability = null;
   let pollTimer   = null;
@@ -842,9 +996,29 @@
     document.getElementById('cal-month-sel').addEventListener('change', onCalNavChange);
     document.getElementById('cal-year-sel').addEventListener('change', onCalNavChange);
     document.getElementById('today-btn').onclick        = jumpToToday;
+    document.getElementById('cal-prev').onclick         = () => navigate(-1);
+    document.getElementById('cal-next').onclick         = () => navigate(1);
     document.getElementById('add-btn').onclick          = () => showForm();
     document.getElementById('back-btn').onclick         = showDashboard;
     document.getElementById('book-on-day-btn').onclick  = () => showForm(selectedDay);
+
+    // View switcher
+    document.getElementById('view-switch').addEventListener('click', (e) => {
+      const b = e.target.closest('.vs-btn'); if (b) setView(b.dataset.view);
+    });
+
+    // Client search (debounced)
+    document.getElementById('cal-search').addEventListener('input', (e) => {
+      clearTimeout(searchTimer);
+      const term = e.target.value.trim();
+      searchTimer = setTimeout(() => { searchTerm = term; loadCalendar(); }, 350);
+    });
+
+    // Service legend / filter
+    buildLegend();
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', onShortcut);
 
     // Panels
     document.getElementById('inquiries-header').onclick = () => togglePanel('inquiries-panel');
@@ -910,8 +1084,125 @@
   function onCalNavChange() {
     calMonth = +document.getElementById('cal-month-sel').value;
     calYear  = +document.getElementById('cal-year-sel').value;
-    selectedDay = null; dayDetail.hidden = true;
+    viewDate = new Date(calYear, calMonth, 1);
+    if (searchTerm) clearSearch();
     loadCalendar();
+  }
+
+  // ── View model ──
+  function setView(v) {
+    if (!['month','week','day','agenda'].includes(v) || v === calView) {
+      // still refresh active-state styling if same
+    }
+    calView = v;
+    document.querySelectorAll('#view-switch .vs-btn').forEach(b =>
+      b.classList.toggle('active', b.dataset.view === v));
+    // show only the active surface
+    document.getElementById('cal-grid').hidden    = v !== 'month';
+    document.getElementById('time-grid').hidden   = !(v === 'week' || v === 'day');
+    document.getElementById('agenda-list').hidden = v !== 'agenda';
+    // prev/next is meaningless in agenda
+    const stepHidden = v === 'agenda';
+    document.getElementById('cal-prev').style.visibility = stepHidden ? 'hidden' : 'visible';
+    document.getElementById('cal-next').style.visibility = stepHidden ? 'hidden' : 'visible';
+    if (searchTerm) clearSearch();
+    loadCalendar();
+  }
+
+  // step by the active view's unit
+  function navigate(dir) {
+    const d = new Date(viewDate);
+    if (calView === 'month')      d.setMonth(d.getMonth() + dir);
+    else if (calView === 'week')  d.setDate(d.getDate() + 7 * dir);
+    else if (calView === 'day')   d.setDate(d.getDate() + dir);
+    else                          d.setDate(d.getDate() + 30 * dir); // agenda window
+    viewDate = d;
+    syncMonthYear();
+    loadCalendar();
+  }
+
+  function syncMonthYear() {
+    calYear = viewDate.getFullYear(); calMonth = viewDate.getMonth();
+    const ms = document.getElementById('cal-month-sel');
+    const ys = document.getElementById('cal-year-sel');
+    if (ms) ms.value = calMonth;
+    if (ys && [...ys.options].some(o => +o.value === calYear)) ys.value = calYear;
+  }
+
+  // [timeMin, timeMax) ISO range for the active view
+  function viewRange() {
+    let start, end;
+    if (calView === 'month') {
+      const first = new Date(viewDate.getFullYear(), viewDate.getMonth(), 1);
+      start = new Date(first); start.setDate(1 - first.getDay());          // grid start (Sun)
+      end = new Date(start); end.setDate(start.getDate() + 42);            // 6 weeks
+    } else if (calView === 'week') {
+      start = new Date(viewDate); start.setHours(0,0,0,0); start.setDate(start.getDate() - start.getDay());
+      end = new Date(start); end.setDate(start.getDate() + 7);
+    } else if (calView === 'day') {
+      start = new Date(viewDate); start.setHours(0,0,0,0);
+      end = new Date(start); end.setDate(start.getDate() + 1);
+    } else { // agenda: now → +60 days
+      start = new Date(); start.setHours(0,0,0,0);
+      end = new Date(start); end.setDate(start.getDate() + 60);
+    }
+    return { timeMin: start.toISOString(), timeMax: end.toISOString() };
+  }
+
+  function calTitle() {
+    if (searchTerm) return `Results for “${searchTerm}”`;
+    if (calView === 'month') return `${MONTH_NAMES[viewDate.getMonth()]} ${viewDate.getFullYear()}`;
+    if (calView === 'day')   return viewDate.toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric'});
+    if (calView === 'agenda') return 'Upcoming';
+    // week
+    const s = new Date(viewDate); s.setDate(s.getDate() - s.getDay());
+    const e = new Date(s); e.setDate(s.getDate() + 6);
+    const sameMonth = s.getMonth() === e.getMonth();
+    const sM = s.toLocaleDateString('en-US',{month:'short'}), eM = e.toLocaleDateString('en-US',{month:'short'});
+    return sameMonth
+      ? `${sM} ${s.getDate()} – ${e.getDate()}, ${e.getFullYear()}`
+      : `${sM} ${s.getDate()} – ${eM} ${e.getDate()}, ${e.getFullYear()}`;
+  }
+
+  // ── Service color / filter ──
+  function serviceOf(ev) {
+    const label = ((ev.description || '').match(/Service: ([^\n]+)/) || [])[1] || '';
+    if (/deep/i.test(label)) return 'deep';
+    if (/move/i.test(label)) return 'moveout';
+    if (/standard/i.test(label)) return 'standard';
+    return 'custom';
+  }
+  function visibleEvents(src) { return (src || calEvents).filter(e => activeServices.has(serviceOf(e))); }
+
+  // Stable now→+60d fetch powering stats + the rail (independent of the active view).
+  async function loadUpcoming() {
+    try {
+      const lo = new Date(); lo.setHours(0,0,0,0);
+      const hi = new Date(lo); hi.setDate(hi.getDate() + 60);
+      const data = await callApi('GET', 'https://www.googleapis.com/calendar/v3/calendars/primary/events', {
+        timeMin: lo.toISOString(), timeMax: hi.toISOString(),
+        orderBy:'startTime', singleEvents:'true', maxResults:'250'
+      });
+      upcomingEvents = (data.items || []).filter(e => e.summary?.startsWith('Cleaning –'));
+    } catch { /* non-critical */ }
+    renderStats();
+    renderRail();
+  }
+
+  function buildLegend() {
+    const wrap = document.getElementById('cal-legend');
+    wrap.innerHTML = ['standard','deep','moveout','custom'].map(k =>
+      `<span class="legend-chip${activeServices.has(k) ? '' : ' off'}" data-svc="${k}">
+         <span class="swatch svc-${k}"></span>${SERVICE_LABELS[k]}</span>`).join('');
+    wrap.querySelectorAll('.legend-chip').forEach(chip => {
+      chip.onclick = () => {
+        const k = chip.dataset.svc;
+        if (activeServices.has(k)) activeServices.delete(k); else activeServices.add(k);
+        if (activeServices.size === 0) activeServices.add(k); // never allow all-off
+        buildLegend();
+        renderActiveView(); renderRail(); renderStats();
+      };
+    });
   }
 
   // ── Auth & persistent login ──
@@ -1008,11 +1299,11 @@
   function showDashboard() {
     formView.hidden = true; dashboardView.hidden = false;
     setDashboardChrome(true);
-    if (!calYear) {
-      const now = new Date();
-      calYear = now.getFullYear(); calMonth = now.getMonth();
-    }
+    syncMonthYear();
+    document.querySelectorAll('#view-switch .vs-btn').forEach(b =>
+      b.classList.toggle('active', b.dataset.view === calView));
     loadCalendar();
+    loadUpcoming();
     renderInquiries();
     renderRecents();
   }
@@ -1031,8 +1322,12 @@
   }
 
   // Open the booking form pre-filled from an existing event, in reschedule mode.
+  function findEvent(id) {
+    return calEvents.find(e => e.id === id) || upcomingEvents.find(e => e.id === id);
+  }
+
   function openReschedule(id) {
-    const ev = calEvents.find(e => e.id === id);
+    const ev = findEvent(id);
     if (!ev) return;
     showForm();
     rescheduleId = id;
@@ -1062,7 +1357,7 @@
   }
 
   async function cancelJob(id) {
-    const ev = calEvents.find(e => e.id === id);
+    const ev = findEvent(id);
     const who = ev ? ev.summary.replace('Cleaning – ', '') : 'this appointment';
     const ok = await confirmDialog({
       title: 'Cancel appointment?',
@@ -1073,8 +1368,8 @@
     try {
       await callApi('DELETE', `https://www.googleapis.com/calendar/v3/calendars/primary/events/${encodeURIComponent(id)}`);
       showToast('Appointment canceled', 'ok');
-      selectedDay = null; dayDetail.hidden = true;
       loadCalendar();
+      loadUpcoming();
     } catch (err) {
       showToast('Could not cancel: ' + err.message, 'no', 5000);
     }
@@ -1135,20 +1430,22 @@
     body.innerHTML = responded.map(renderRecentCard).join('');
   }
 
+  // Stats are computed from a stable now→+60d dataset (upcomingEvents), not the
+  // active view's range, so the numbers don't change when you switch views.
   function renderStats() {
     const now = new Date();
     const todayDs = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`;
-    const evStart = ev => new Date(ev.start.dateTime || ev.start.date);
-    const dsOf = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+    const stOf = ev => new Date(ev.start.dateTime || ev.start.date);
+    const dOf  = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
 
-    // week range: Sunday→Saturday containing today
     const weekStart = new Date(now); weekStart.setHours(0,0,0,0); weekStart.setDate(now.getDate() - now.getDay());
     const weekEnd = new Date(weekStart); weekEnd.setDate(weekStart.getDate() + 7);
 
-    const todayCount = calEvents.filter(ev => dsOf(evStart(ev)) === todayDs).length;
-    const weekCount  = calEvents.filter(ev => { const s = evStart(ev); return s >= weekStart && s < weekEnd; }).length;
+    const src        = upcomingEvents;
+    const todayCount = src.filter(ev => dOf(stOf(ev)) === todayDs).length;
+    const weekCount  = src.filter(ev => { const s = stOf(ev); return s >= weekStart && s < weekEnd; }).length;
     const pending    = loadInquiries().filter(i => i.status === 'pending').length;
-    const upcoming   = calEvents.filter(ev => evStart(ev) >= now).sort((a,b) => evStart(a) - evStart(b));
+    const upcoming   = src.filter(ev => new Date(ev.end.dateTime||ev.end.date) >= now).sort((a,b) => stOf(a) - stOf(b));
 
     const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
     set('stat-today', todayCount);
@@ -1156,7 +1453,7 @@
     set('stat-week', weekCount);
 
     if (upcoming.length) {
-      const s = evStart(upcoming[0]);
+      const s = stOf(upcoming[0]);
       set('stat-next', s.toLocaleDateString('en-US', { month:'short', day:'numeric' }));
       set('stat-next-sub', `${fmtTime(s)} · ${upcoming[0].summary.replace('Cleaning – ', '')}`);
     } else {
@@ -1406,74 +1703,100 @@
   }
 
   // ── Calendar ──
-  function navigateMonth(delta) {
-    calMonth += delta;
-    if (calMonth > 11) { calMonth = 0; calYear++; }
-    if (calMonth < 0)  { calMonth = 11; calYear--; }
-    selectedDay = null; dayDetail.hidden = true;
+  function jumpToToday() {
+    viewDate = new Date();
+    syncMonthYear();
+    if (searchTerm) clearSearch();
     loadCalendar();
   }
 
-  function jumpToToday() {
-    const now = new Date();
-    calYear = now.getFullYear(); calMonth = now.getMonth();
-    selectedDay = null; dayDetail.hidden = true;
-    loadCalendar();
+  function clearSearch() {
+    searchTerm = '';
+    const box = document.getElementById('cal-search');
+    if (box) box.value = '';
   }
+
+  const dsOf = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+  const evStart = ev => new Date(ev.start.dateTime || ev.start.date);
+  const evEnd   = ev => new Date(ev.end.dateTime   || ev.end.date);
 
   async function loadCalendar() {
-    document.getElementById('cal-grid').innerHTML =
-      '<div class="skel-grid" style="grid-column:1/-1;">' +
-      Array.from({length:21}, () => '<div class="skeleton skel-cell"></div>').join('') +
-      '</div>';
+    document.getElementById('cal-title').textContent = calTitle();
+    const isCur = !searchTerm && calView === 'month' &&
+      viewDate.getFullYear() === new Date().getFullYear() && viewDate.getMonth() === new Date().getMonth();
+    document.getElementById('today-btn').hidden = isCur;
+
+    showCalLoading();
     try {
-      const data = await callApi('GET',
-        'https://www.googleapis.com/calendar/v3/calendars/primary/events', {
-          timeMin:      new Date(calYear, calMonth, 1).toISOString(),
-          timeMax:      new Date(calYear, calMonth + 1, 0, 23, 59, 59).toISOString(),
-          orderBy:      'startTime', singleEvents: 'true', maxResults: '250'
-        });
+      const params = { orderBy:'startTime', singleEvents:'true', maxResults:'250' };
+      if (searchTerm) {
+        const lo = new Date(); lo.setMonth(lo.getMonth() - 3);
+        const hi = new Date(); hi.setFullYear(hi.getFullYear() + 1);
+        params.timeMin = lo.toISOString(); params.timeMax = hi.toISOString(); params.q = searchTerm;
+      } else {
+        const r = viewRange(); params.timeMin = r.timeMin; params.timeMax = r.timeMax;
+      }
+      const data = await callApi('GET', 'https://www.googleapis.com/calendar/v3/calendars/primary/events', params);
       calEvents = (data.items || []).filter(e => e.summary?.startsWith('Cleaning –'));
-      renderCalendar();
+      renderActiveView();
+      renderRail();
       renderStats();
     } catch (err) {
-      document.getElementById('cal-grid').innerHTML =
+      const target = calView === 'month' ? 'cal-grid' : calView === 'agenda' ? 'agenda-list' : 'time-grid';
+      document.getElementById(target).innerHTML =
         `<p class="state-msg" style="grid-column:1/-1;color:var(--warn);">Could not load calendar: ${escHtml(err.message)}</p>`;
     }
   }
 
+  function showCalLoading() {
+    if (searchTerm || calView === 'agenda') {
+      document.getElementById('agenda-list').innerHTML =
+        Array.from({length:4}, () => '<div class="skeleton skel-row" style="width:100%;height:42px;margin:0.5rem 0;"></div>').join('');
+    } else if (calView === 'month') {
+      document.getElementById('cal-grid').innerHTML =
+        '<div class="skel-grid" style="grid-column:1/-1;">' +
+        Array.from({length:21}, () => '<div class="skeleton skel-cell"></div>').join('') + '</div>';
+    } else {
+      document.getElementById('time-grid').innerHTML =
+        '<div style="padding:1rem;">' +
+        Array.from({length:6}, () => '<div class="skeleton skel-row" style="height:34px;"></div>').join('') + '</div>';
+    }
+  }
+
+  // Dispatch to the right renderer (search always uses the agenda list)
+  function renderActiveView() {
+    document.getElementById('cal-grid').hidden    = !( !searchTerm && calView === 'month');
+    document.getElementById('time-grid').hidden   = !( !searchTerm && (calView === 'week' || calView === 'day'));
+    document.getElementById('agenda-list').hidden = !( searchTerm || calView === 'agenda');
+    if (searchTerm) return renderAgenda(true);
+    if (calView === 'month') return renderCalendar();
+    if (calView === 'agenda') return renderAgenda(false);
+    return renderTimeGrid(calView); // 'week' | 'day'
+  }
+
+  function eventsByDay() {
+    const map = {};
+    visibleEvents().forEach(ev => { const k = dsOf(evStart(ev)); (map[k] = map[k] || []).push(ev); });
+    return map;
+  }
+
   function renderCalendar() {
-    const now     = new Date();
-    const todayDs = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`;
-    const isCur   = calYear === now.getFullYear() && calMonth === now.getMonth();
-
-    document.getElementById('cal-month-sel').value = calMonth;
-    document.getElementById('cal-year-sel').value  = calYear;
-    document.getElementById('today-btn').hidden = isCur;
-
-    const evMap = {};
-    calEvents.forEach(ev => {
-      const s  = new Date(ev.start.dateTime || ev.start.date);
-      const ds = `${s.getFullYear()}-${pad(s.getMonth()+1)}-${pad(s.getDate())}`;
-      if (!evMap[ds]) evMap[ds] = [];
-      evMap[ds].push(ev);
-    });
-
-    const startOff = new Date(calYear, calMonth, 1).getDay();
+    const todayDs = dsOf(new Date());
+    const evMap = eventsByDay();
+    const startOff = new Date(viewDate.getFullYear(), viewDate.getMonth(), 1).getDay();
     const grid = document.getElementById('cal-grid');
-    const headers = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
-      .map(d => `<div class="cal-day-header">${d}</div>`).join('');
+    const headers = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(d => `<div class="cal-day-header">${d}</div>`).join('');
 
     const cells = [];
-    const cursor = new Date(calYear, calMonth, 1 - startOff);
+    const cursor = new Date(viewDate.getFullYear(), viewDate.getMonth(), 1 - startOff);
     for (let i = 0; i < 42; i++) {
       const y = cursor.getFullYear(), m = cursor.getMonth(), d = cursor.getDate();
       const ds = `${y}-${pad(m+1)}-${pad(d)}`;
-      const inMonth = m === calMonth && y === calYear;
+      const inMonth = m === viewDate.getMonth() && y === viewDate.getFullYear();
       const isToday = ds === todayDs, isSel = ds === selectedDay;
       const dayEvs  = evMap[ds] || [];
       let cls = 'cal-day' + (!inMonth?' other-month':'') + (isToday?' today':'') + (isSel?' selected':'');
-      const dots = dayEvs.slice(0,3).map(() => '<span class="day-dot"></span>').join('');
+      const dots = dayEvs.slice(0,3).map(ev => `<span class="day-dot" style="background:${SERVICE_COLORS[serviceOf(ev)]}"></span>`).join('');
       const more = dayEvs.length > 3 ? `<span class="day-more">+${dayEvs.length-3}</span>` : '';
       cells.push(`<div class="${cls}" data-date="${ds}" data-in="${inMonth}"><span class="day-num">${d}</span>${dayEvs.length?`<div class="day-dots">${dots}${more}</div>`:''}</div>`);
       cursor.setDate(cursor.getDate() + 1);
@@ -1483,59 +1806,207 @@
     grid.querySelectorAll('.cal-day[data-in="true"]').forEach(cell => {
       cell.addEventListener('click', () => selectDay(cell.dataset.date));
     });
-
-    if (selectedDay) {
-      const [sy,sm] = selectedDay.split('-').map(Number);
-      if (sy === calYear && sm-1 === calMonth) renderDayDetail();
-      else { selectedDay = null; dayDetail.hidden = true; }
-    }
   }
+
+  // Week (7 day columns) / Day (1 column) hour grid
+  function renderTimeGrid(mode) {
+    const tg = document.getElementById('time-grid');
+    const todayDs = dsOf(new Date());
+    const days = [];
+    if (mode === 'week') {
+      const s = new Date(viewDate); s.setHours(0,0,0,0); s.setDate(s.getDate() - s.getDay());
+      for (let i = 0; i < 7; i++) { const d = new Date(s); d.setDate(s.getDate()+i); days.push(d); }
+    } else {
+      const d = new Date(viewDate); d.setHours(0,0,0,0); days.push(d);
+    }
+    const hours = [];
+    for (let h = WORK_START_HOUR; h <= WORK_END_HOUR; h++) hours.push(h);
+    const colTemplate = `64px repeat(${days.length}, 1fr)`;
+
+    // header row
+    let head = `<div class="tg-head" style="grid-template-columns:${colTemplate}"><div></div>`;
+    head += days.map(d => {
+      const isT = dsOf(d) === todayDs;
+      return `<div class="tg-head-cell${isT?' today':''}">
+        <div class="tg-head-dow">${d.toLocaleDateString('en-US',{weekday:'short'})}</div>
+        <div class="tg-head-date">${d.getDate()}</div></div>`;
+    }).join('') + '</div>';
+
+    // body: time labels + day columns
+    const bodyHeight = (WORK_END_HOUR - WORK_START_HOUR) * HOUR_PX;
+    let body = `<div class="tg-body" style="grid-template-columns:${colTemplate}">`;
+    // time-label column (labels absolutely aligned to each hour line)
+    body += `<div style="position:relative;height:${bodyHeight}px">` + hours.map(h =>
+      `<div class="tg-hour-label" style="position:absolute;right:0;top:${(h-WORK_START_HOUR)*HOUR_PX}px">${fmtTime12(`${pad(h)}:00`)}</div>`).join('') + `</div>`;
+    // day columns
+    const evMap = eventsByDay();
+    days.forEach(d => {
+      const ds = dsOf(d);
+      const slots = hours.slice(0, -1).map(h =>
+        `<div class="tg-slot" style="height:${HOUR_PX}px" data-date="${ds}" data-hour="${h}"></div>`).join('');
+      const evs = (evMap[ds] || []).map(ev => {
+        const s = evStart(ev), e = evEnd(ev);
+        const startMin = s.getHours()*60 + s.getMinutes();
+        const top = Math.max(0, (startMin - WORK_START_HOUR*60) / 60 * HOUR_PX);
+        const rawH = (e - s) / 3600000 * HOUR_PX;
+        const height = Math.max(22, Math.min(rawH, bodyHeight - top));
+        const color = SERVICE_COLORS[serviceOf(ev)];
+        return `<div class="tg-event" style="top:${top}px;height:${height}px;background:${color}" data-id="${escHtml(ev.id)}" title="${escHtml(ev.summary.replace('Cleaning – ',''))}">
+          <div class="te-time">${fmtTime(s)}</div><div class="te-name">${escHtml(ev.summary.replace('Cleaning – ',''))}</div></div>`;
+      }).join('');
+      body += `<div class="tg-col" data-date="${ds}" style="height:${bodyHeight}px">${slots}${evs}</div>`;
+    });
+    body += `</div>`;
+
+    tg.innerHTML = head + body;
+    // click empty slot → quick book that day
+    tg.querySelectorAll('.tg-slot').forEach(s =>
+      s.addEventListener('click', () => showForm(s.dataset.date)));
+    // click event → select its day (rail shows actions)
+    tg.querySelectorAll('.tg-event').forEach(el =>
+      el.addEventListener('click', (e) => { e.stopPropagation(); selectDay(el.closest('.tg-col').dataset.date); }));
+  }
+
+  function renderAgenda(isSearch) {
+    const list = document.getElementById('agenda-list');
+    const now = new Date(); now.setHours(0,0,0,0);
+    let evs = visibleEvents().slice().sort((a,b) => evStart(a) - evStart(b));
+    if (!isSearch) evs = evs.filter(ev => evEnd(ev) >= new Date());
+
+    if (!evs.length) {
+      list.innerHTML = `<p class="state-msg">${isSearch ? 'No matching appointments.' : 'No upcoming jobs in the next 60 days.'}</p>`;
+      return;
+    }
+    // group by day
+    const groups = {};
+    evs.forEach(ev => { const k = dsOf(evStart(ev)); (groups[k] = groups[k] || []).push(ev); });
+    const todayDs = dsOf(new Date());
+    let html = '';
+    if (isSearch) html += `<p style="font-size:0.82rem;color:var(--muted);margin-bottom:0.8rem;">Found ${evs.length} for “${escHtml(searchTerm)}” · <button class="link-btn" onclick="exitSearch()">Clear</button></p>`;
+    Object.keys(groups).sort().forEach(ds => {
+      const [y,m,d] = ds.split('-').map(Number);
+      const label = new Date(y,m-1,d).toLocaleDateString('en-US',{weekday:'long', month:'long', day:'numeric'});
+      html += `<div class="agenda-group"><div class="agenda-date${ds===todayDs?' is-today':''}">${ds===todayDs?'Today · ':''}${label}</div>${groups[ds].map(renderJobCard).join('')}</div>`;
+    });
+    list.innerHTML = html;
+  }
+
+  function exitSearch() { clearSearch(); loadCalendar(); }
 
   function selectDay(ds) {
     if (selectedDay === ds) {
-      selectedDay = null; dayDetail.hidden = true;
+      selectedDay = null;
       document.querySelectorAll('.cal-day.selected').forEach(c => c.classList.remove('selected'));
+      renderRail();
       return;
     }
     selectedDay = ds;
     document.querySelectorAll('.cal-day').forEach(c => c.classList.remove('selected'));
     document.querySelector(`.cal-day[data-date="${ds}"]`)?.classList.add('selected');
+    renderRail();
+    if (window.matchMedia('(max-width: 980px)').matches) {
+      document.getElementById('day-detail').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }
+
+  // ── Right rail ──
+  function renderRail() {
     renderDayDetail();
+    renderUpcoming();
   }
 
   function renderDayDetail() {
-    const [y,m,d] = selectedDay.split('-').map(Number);
-    dayDetailTitle.textContent = new Date(y,m-1,d)
-      .toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
-    const dayEvs = calEvents.filter(ev => {
-      const s  = new Date(ev.start.dateTime || ev.start.date);
-      return `${s.getFullYear()}-${pad(s.getMonth()+1)}-${pad(s.getDate())}` === selectedDay;
-    });
+    const ds = selectedDay || dsOf(new Date());
+    const [y,m,d] = ds.split('-').map(Number);
+    const isToday = ds === dsOf(new Date());
+    dayDetailTitle.textContent = (isToday ? 'Today · ' : '') +
+      new Date(y,m-1,d).toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+    // union of the active view's events + the upcoming set so a selected day always
+    // shows its jobs even if it's outside the current view's loaded range
+    const byId = {};
+    [...calEvents, ...upcomingEvents].forEach(ev => { byId[ev.id] = ev; });
+    const dayEvs = Object.values(byId)
+      .filter(ev => activeServices.has(serviceOf(ev)) && dsOf(evStart(ev)) === ds)
+      .sort((a,b) => evStart(a) - evStart(b));
     dayDetailJobs.innerHTML = dayEvs.length
       ? dayEvs.map(renderJobCard).join('')
-      : '<p style="font-size:0.88rem;color:var(--muted);padding:0.25rem 0;">No jobs booked — tap "+ Book this day" to add one.</p>';
+      : '<p style="font-size:0.86rem;color:var(--muted);padding:0.25rem 0;">No jobs this day — tap “+ Book”.</p>';
+    document.getElementById('book-on-day-btn').onclick = () => showForm(ds);
     dayDetail.hidden = false;
-    dayDetail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function renderUpcoming() {
+    const wrap = document.getElementById('rail-upcoming');
+    const now = new Date();
+    const evs = visibleEvents(upcomingEvents)
+      .filter(ev => evEnd(ev) >= now)
+      .sort((a,b) => evStart(a) - evStart(b))
+      .slice(0, 6);
+    if (!evs.length) { wrap.innerHTML = '<p style="font-size:0.84rem;color:var(--muted);">Nothing scheduled.</p>'; return; }
+    wrap.innerHTML = evs.map(ev => {
+      const s = evStart(ev);
+      const when = s.toLocaleDateString('en-US',{weekday:'short', day:'numeric'}) + ' · ' + fmtTime(s);
+      const ds = dsOf(s);
+      return `<div class="rail-row" data-date="${ds}">
+        <span class="rail-dot" style="background:${SERVICE_COLORS[serviceOf(ev)]}"></span>
+        <span class="rail-when">${when}</span>
+        <span class="rail-client">${escHtml(ev.summary.replace('Cleaning – ',''))}</span></div>`;
+    }).join('');
+    wrap.querySelectorAll('.rail-row').forEach(row => row.onclick = () => jumpToDay(row.dataset.date));
+  }
+
+  // jump the main calendar to a given day's month + select it
+  function jumpToDay(ds) {
+    const [y,m,d] = ds.split('-').map(Number);
+    viewDate = new Date(y, m-1, d);
+    selectedDay = ds;
+    syncMonthYear();
+    if (searchTerm) clearSearch();
+    loadCalendar();
   }
 
   function renderJobCard(ev) {
-    const start = new Date(ev.start.dateTime || ev.start.date);
-    const end   = new Date(ev.end.dateTime   || ev.end.date);
+    const start = evStart(ev);
+    const end   = evEnd(ev);
     const name  = ev.summary.replace('Cleaning – ','');
     const desc  = ev.description || '';
     const phone   = (desc.match(/Phone: ([^\n]+)/)   || [])[1] || '';
     const service = (desc.match(/Service: ([^\n]+)/) || [])[1] || '';
+    const svc     = serviceOf(ev);
     const safeId  = escHtml(ev.id);
-    return `<div class="job-card">
+    return `<div class="job-card lead-${svc}">
       <div class="job-header"><span class="job-name">${escHtml(name)}</span><span class="job-time">${fmtTime(start)} – ${fmtTime(end)}</span></div>
       ${ev.location?`<div class="job-detail">📍 ${escHtml(ev.location)}</div>`:''}
-      ${service?`<div class="job-detail">🧹 ${escHtml(service)}</div>`:''}
+      ${service?`<div class="job-detail"><span class="rail-dot svc-${svc}" style="display:inline-block;vertical-align:middle;margin-right:5px;"></span>${escHtml(service)}</div>`:''}
       ${phone?`<div class="job-detail">📞 ${escHtml(phone)}</div>`:''}
       <div class="job-actions">
         <button class="btn btn-secondary btn-sm" onclick="openReschedule('${safeId}')">Reschedule</button>
         <button class="btn btn-danger btn-sm" onclick="cancelJob('${safeId}')">Cancel</button>
       </div>
     </div>`;
+  }
+
+  // ── Keyboard shortcuts ──
+  function onShortcut(e) {
+    const tag = (e.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'textarea' || tag === 'select' || e.metaKey || e.ctrlKey || e.altKey) return;
+    // ignore while a modal is open
+    if (!document.getElementById('inquiry-modal').hidden || !document.getElementById('confirm-modal').hidden) {
+      if (e.key === 'Escape') { closeLogModal(); closeConfirm(); }
+      return;
+    }
+    if (appEl.hidden || !formView.hidden) return; // only on the dashboard
+    switch (e.key) {
+      case 'ArrowLeft':  if (calView !== 'agenda') { navigate(-1); e.preventDefault(); } break;
+      case 'ArrowRight': if (calView !== 'agenda') { navigate(1);  e.preventDefault(); } break;
+      case 't': case 'T': jumpToToday(); break;
+      case 'n': case 'N': showForm(); break;
+      case 'm': case 'M': setView('month'); break;
+      case 'w': case 'W': setView('week'); break;
+      case 'd': case 'D': setView('day'); break;
+      case 'a': case 'A': setView('agenda'); break;
+      case 'Escape': if (selectedDay) { selectedDay = null; renderActiveView(); renderRail(); } break;
+    }
   }
 
   // ── Booking form ──
@@ -1632,8 +2103,8 @@
       submitBtn.style.background = 'var(--ok)';
       showToast(isReschedule ? 'Appointment rescheduled' : 'Appointment booked', 'ok');
       const bd = new Date(d.selectedSlot);
-      calYear = bd.getFullYear(); calMonth = bd.getMonth();
-      selectedDay = `${calYear}-${pad(calMonth+1)}-${pad(bd.getDate())}`;
+      viewDate = new Date(bd.getFullYear(), bd.getMonth(), bd.getDate());
+      selectedDay = dsOf(bd);
       rescheduleId = null;
       setTimeout(() => { submitBtn.textContent='Book Appointment'; submitBtn.style.background=''; showDashboard(); }, 1100);
     } catch (err) {
