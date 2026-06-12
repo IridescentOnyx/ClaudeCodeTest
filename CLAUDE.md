@@ -50,6 +50,10 @@ Scheduling app for a cleaning business. Connects to Google Calendar via OAuth to
 
 **How it works:** Reads and writes events to the user's primary Google Calendar. Events are titled `Cleaning – [Client Name]` so they can be filtered on the dashboard. Availability is determined by querying the `freeBusy` API for a given date + duration and slotting candidates in 30-minute increments between 8 AM and 6 PM.
 
+**Auth / persistent login:** Uses Google Identity Services token client. The access token + expiry are persisted to `localStorage` under `cs_token`; on boot a still-valid token restores the session with no prompt, an expired one triggers a silent `requestAccessToken({prompt:''})` refresh, and `callApi` retries once via silent refresh on a 401. `signOut` clears `cs_token` so the next visit waits for an explicit sign-in.
+
+**UI:** Editorial-light theme (off-white canvas, indigo `#4f46e5` accent, Fraunces display + Inter UI). Single-column layout with a stat hero (`#stats-hero`: today / pending / this week / next job via `renderStats()`). Feedback is via non-blocking toasts (`showToast`) and a promise-based `confirmDialog` (`#confirm-modal`) — no native `alert`/`confirm`. Booked jobs can be **canceled** (DELETE) or **rescheduled** (PATCH, booking form reused via `rescheduleId`); inquiries can be **edited** (modal reused via `editingId`, which also dedupes the respond-from-modal path) or **deleted**.
+
 ## Git workflow
 
 Commit and push after every meaningful unit of work — don't batch unrelated changes or leave work uncommitted. This ensures progress is never lost and the GitHub history reflects the current state of the project.
